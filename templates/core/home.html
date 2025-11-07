@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+<!-- Indica que este arquivo usa o layout principal (base.html) como modelo, tudo que estiver dentro de % block content % vai aparecer no lugar certo dentro da base. -->
+
+{% block content %}
+<!-- Início do conteúdo específico desta página (home). -->
+
+<header class="p-5 text-center bg-light rounded-3">
+    <!-- Cria um cabeçalho com bastante espaçamento interno (p-5), texto centralizado e fundo claro. 
+         O 'rounded-3' dá cantos levemente arredondados. -->
+
+    <h1 class="display-4">{{ titulo }}</h1>
+    <!-- Exibe o título enviado pela view (ex: "Posto XYZ - Seu Combustível com Qualidade"). 
+         'display-4' é uma classe Bootstrap para deixar o texto grande e bonito. -->
+
+    <p class="lead">Qualidade, rapidez e o melhor atendimento da região.</p>
+    <!-- Texto de destaque abaixo do título, estilo "slogan". -->
+
+    <hr class="my-4">
+    <!-- Linha divisória horizontal (hr) com margens verticais médias (my-4). -->
+
+    <p>Visite-nos hoje e sinta a diferença em seu veículo.</p>
+    <!-- Parágrafo com uma mensagem convidando o cliente. -->
+
+    <a class="btn btn-success btn-lg" href="{% url 'lista_servicos' %}" role="button">
+        Ver Combustíveis e Serviços
+    </a>
+    <!-- Botão grande e verde (btn-success, btn-lg) que leva o usuário até a página de serviços. 
+         O link é dinâmico e usa o nome da rota 'lista_servicos'. -->
+</header>
+
+{% endblock %}
+<!-- Fim do conteúdo principal da página inicial. -->
