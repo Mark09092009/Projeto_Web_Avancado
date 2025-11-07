@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     # Meus Apps
     'apps.core',
     'apps.servicos',
-
     'widget_tweaks',
 ]
 
