@@ -66,6 +66,24 @@
                         <a class="nav-link" href="#">Contato</a>
                         <!-- Link genérico (ainda sem rota definida). -->
                     </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item ms-3">
+                            <span class="nav-link text-success">Olá, {{ user.username }}!</span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-danger" href="{% url 'logout' %}">Sair</a>
+                            <!-- Link para a página de logout. -->
+                        </li>
+                    {% else %}
+                        <li class="nav-item ms-3">
+                            <a class="btn btn-primary" href="{% url 'login' %}">Login</a>
+                            <!-- Link para a página de login. -->
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-info ms-2" href="{% url 'register' %}">Cadastro</a>
+                            <!-- Link para a página de registro. -->
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

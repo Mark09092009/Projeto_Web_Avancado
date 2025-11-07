@@ -23,4 +23,6 @@ urlpatterns = [
     # 🔹 Essa rota define que todas as URLs que começarem com 'servicos/'
     # serão tratadas pelo arquivo apps/servicos/urls.py.
     # Exemplo: '/servicos/' → lista de combustíveis e serviços.
+
+    path('accounts/', include('django.contrib.auth.urls'))
 ]

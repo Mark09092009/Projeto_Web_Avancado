@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     # Meus Apps
     'apps.core',
     'apps.servicos',
+
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -134,3 +136,9 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# ONDE REDIRECIONAR APÓS UM LOGIN BEM-SUCEDIDO
+LOGIN_REDIRECT_URL = '/'  # Redireciona para a página inicial (URL raiz)
+
+# ONDE ENCONTRAR O FORMULÁRIO DE LOGIN (usado por @login_required)
+LOGIN_URL = 'login' # O nome da URL de login

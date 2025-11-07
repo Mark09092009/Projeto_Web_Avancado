@@ -12,4 +12,7 @@ urlpatterns = [
     # 🔹 Quando o usuário acessa a URL http://localhost:8000/sobre/,
     # o Django executa a função 'sobre' do arquivo 'core/views.py'.
     # O name='sobre' também permite gerar links facilmente no HTML.
+
+    # URL para o Cadastro
+    path('register/', views.register, name='register'),
 ]
