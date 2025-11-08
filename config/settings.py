@@ -143,3 +143,13 @@ LOGIN_REDIRECT_URL = 'home'  # Redireciona para a página inicial (URL raiz)
 LOGIN_URL = 'login' # O nome da URL de login
 
 LOGOUT_REDIRECT_URL = '/'  # Redireciona para a página inicial (URL raiz)
+
+# settings.py
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com' # Exemplo para Gmail
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'marcosvsousa387@gmail.com' # Seu endereço de email
+EMAIL_HOST_PASSWORD = 'ubin mtty wksk mzym' # Sua senha de app ou normal
+DEFAULT_FROM_EMAIL = 'marcosvsousa387@gmail.com'

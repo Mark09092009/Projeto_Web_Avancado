@@ -24,5 +24,6 @@ urlpatterns = [
     # serão tratadas pelo arquivo apps/servicos/urls.py.
     # Exemplo: '/servicos/' → lista de combustíveis e serviços.
 
-    path('accounts/', include('django.contrib.auth.urls'))
+    path('auth/', include('django.contrib.auth.urls')), 
+    # 🔹 Inclui novamente as URLs de autenticação padrão do Django (login, logout, password reset, etc.)
 ]

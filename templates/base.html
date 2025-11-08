@@ -1,51 +1,53 @@
 {% load static %} 
-<!-- Carrega a tag 'static' do Django, usada para acessar arquivos estáticos (CSS, imagens, JS). -->
+<!-- Carrega a tag 'static' do Django, necessária para acessar arquivos estáticos
+     (CSS, imagens, JavaScript, etc.). -->
 
 <!DOCTYPE html>
 <html lang="pt-br">
-<!-- Define o tipo do documento e o idioma da página. -->
+<!-- Define o tipo de documento (HTML5) e o idioma da página (português do Brasil). -->
 
 <head>
     <meta charset="UTF-8">
-    <!-- Define o conjunto de caracteres (acentos e símbolos funcionarão). -->
+    <!-- Define o conjunto de caracteres usado — garante que acentos e símbolos apareçam corretamente. -->
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Faz o site se adaptar bem a telas de celulares e tablets. -->
+    <!-- Faz a página se ajustar automaticamente a diferentes tamanhos de tela (responsivo). -->
 
     <title>{{ titulo|default:"Posto Django" }}</title>
-    <!-- Mostra o título passado pela view; se não houver, mostra "Posto Django". -->
+    <!-- Mostra o título definido pela view; se não houver, usa "Posto Django" como padrão. -->
 
-    <!-- Importa o Bootstrap (biblioteca de estilos CSS) de um servidor online (CDN). -->
+    <!-- Importa o Bootstrap 5 (framework CSS) via CDN para facilitar o estilo e responsividade. -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Importa o arquivo CSS personalizado que está na pasta 'static/css/style.css'. -->
+    <!-- Importa o arquivo CSS personalizado que está na pasta static/css/style.css. -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
     {% block extra_head %}{% endblock %}
-    <!-- Bloco opcional para páginas que precisem adicionar algo extra no <head>. -->
+    <!-- Espaço opcional para adicionar algo extra no <head> (ex: CSS adicional). -->
 </head>
 
 <body>
-    <!-- Início do corpo da página -->
+    <!-- Início do corpo da página (tudo visível ao usuário fica aqui). -->
 
+    <!-- ===== NAVBAR (MENU SUPERIOR) ===== -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-        <!-- Cria a barra de navegação (navbar) verde, do Bootstrap. -->
+        <!-- Cria uma barra de navegação verde (bg-success) e escura (navbar-dark). -->
         <div class="container">
-            <!-- Mantém o conteúdo da navbar centralizado e com espaçamento nas laterais. -->
+            <!-- Centraliza o conteúdo e aplica espaçamento lateral. -->
             
             <a class="navbar-brand" href="{% url 'home' %}">⛽ Posto Lucas</a>
-            <!-- Logotipo e nome do posto; ao clicar, vai pra página inicial. -->
+            <!-- Nome e ícone da marca. O link leva o usuário para a página inicial ('home'). -->
             
+            <!-- Botão que aparece em telas pequenas para abrir o menu (modo mobile). -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <!-- Botão que aparece em telas pequenas (menu hambúrguer). -->
                 <span class="navbar-toggler-icon"></span>
             </button>
 
+            <!-- Contêiner dos links do menu -->
             <div class="collapse navbar-collapse" id="navbarNav">
-                <!-- Div que contém os links do menu, recolhe ou expande conforme o tamanho da tela. -->
                 <ul class="navbar-nav ms-auto">
-                    <!-- Lista de links (ms-auto = empurra os itens pro lado direito da tela). -->
+                    <!-- Lista dos links de navegação (ms-auto = alinha à direita). -->
 
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'home' %}">Início</a>
@@ -54,90 +56,108 @@
 
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'lista_servicos' %}">Serviços</a>
-                        <!-- Link para a página de lista de serviços (combustíveis e trocas). -->
+                        <!-- Link para a página que lista os serviços (combustíveis, trocas, etc.). -->
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'sobre' %}">Sobre</a>
-                        <!-- Link para a página "Sobre Nós". -->
+                        <!-- Link para a página "Sobre nós". -->
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contato</a>
-                        <!-- Link genérico (ainda sem rota definida). -->
+                        <!-- Link de contato (ainda sem rota definida). -->
                     </li>
+
                     {% if user.is_authenticated %}
+                    <!-- Verifica se o usuário está logado. -->
                         <li class="nav-item ms-3">
                             <span class="nav-link text-success">Olá, {{ user.username }}!</span>
+                            <!-- Mostra uma saudação personalizada. -->
                         </li>
+
                         <li class="nav-item">
+                            <!-- Botão vermelho que abre o modal de confirmação de saída. -->
                             <a class="btn btn-danger" 
                                 href="#" 
-                                role="button"  data-bs-toggle="modal" 
+                                role="button"  
+                                data-bs-toggle="modal" 
                                 data-bs-target="#logoutModal"
-                                onclick="event.preventDefault();"> Sair
+                                onclick="event.preventDefault();"> 
+                                Sair
                             </a>
-                            <!-- Abre o popup de confirmar o logout. -->
                         </li>
                     {% else %}
+                    <!-- Caso o usuário não esteja logado, mostra os botões de login e cadastro. -->
                         <li class="nav-item ms-3">
                             <a class="btn btn-success" href="{% url 'login' %}">Login</a>
-                            <!-- Link para a página de login. -->
                         </li>
                         <li class="nav-item">
                             <a class="btn btn-success ms-2" href="{% url 'register' %}">Cadastro</a>
-                            <!-- Link para a página de registro. -->
                         </li>
                     {% endif %}
                 </ul>
             </div>
         </div>
     </nav>
-    <!-- Fim da barra de navegação -->
+    <!-- ===== FIM DA NAVBAR ===== -->
 
+    <!-- ===== CONTEÚDO PRINCIPAL ===== -->
     <main class="container my-4">
-        <!-- Área principal da página (my-4 = margem vertical). -->
         {% block content %}
-        <!-- Bloco que será substituído pelo conteúdo das páginas que herdam este layout. -->
+        <!-- Este bloco será substituído pelo conteúdo das páginas que herdam este template. -->
         {% endblock %}
     </main>
 
+    <!-- ===== RODAPÉ ===== -->
     <footer class="bg-dark text-white text-center py-3 mt-auto">
-        <!-- Rodapé escuro com texto branco, centralizado e espaçamento interno (padding). -->
         <p>&copy; 2024 Posto Lucas. Todos os direitos reservados.</p>
-        <!-- Texto de direitos autorais. -->
     </footer>
 
-    <!-- Importa o JavaScript do Bootstrap (necessário pro menu funcionar). -->
+    <!-- ===== SCRIPTS ===== -->
+    <!-- Bootstrap JS (necessário para o menu mobile e modais funcionarem). -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{% static 'js/script.js' %}"></script>
-    {% block extra_js %}{% endblock %}
-    <!-- Bloco opcional para adicionar scripts extras em páginas específicas. -->
 
+    <!-- Arquivo JS personalizado (pasta static/js/script.js). -->
+    <script src="{% static 'js/script.js' %}"></script>
+
+    {% block extra_js %}{% endblock %}
+    <!-- Espaço opcional para páginas que precisem adicionar JavaScript específico. -->
+
+    <!-- ===== FORMULÁRIO E MODAL DE LOGOUT ===== -->
+    <!-- Formulário oculto que realiza o logout via POST (boa prática de segurança). -->
     <form id="logoutForm" method="POST" action="{% url 'logout' %}" style="display: none;">
         {% csrf_token %}
     </form>
 
+    <!-- Modal de confirmação de logout -->
     <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
+                <!-- Cabeçalho do modal -->
                 <div class="modal-header bg-danger text-white">
                     <h5 class="modal-title" id="logoutModalLabel">Confirmação de Saída</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
+                <!-- Corpo do modal -->
                 <div class="modal-body">
                     Você tem certeza que deseja sair do sistema? Seus dados não salvos podem ser perdidos.
                 </div>
+
+                <!-- Rodapé do modal -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     
-                    <a class="btn btn-danger" onclick="document.getElementById('logoutForm').submit();" data-bs-dismiss="modal">
+                    <a class="btn btn-danger" 
+                       onclick="document.getElementById('logoutForm').submit();" 
+                       data-bs-dismiss="modal">
                         Sim, Sair
                     </a>
                 </div>
             </div>
         </div>
     </div>
-    
+
 </body>
 </html>
