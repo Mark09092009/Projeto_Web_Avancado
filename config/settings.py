@@ -153,3 +153,14 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'marcosvsousa387@gmail.com' # Seu endereço de email
 EMAIL_HOST_PASSWORD = 'ubin mtty wksk mzym' # Sua senha de app ou normal
 DEFAULT_FROM_EMAIL = 'marcosvsousa387@gmail.com'
+
+# Define a lista de backends de autenticação que o Django deve usar.
+# O backend personalizado permite login via e-mail ou nome de usuário.
+AUTHENTICATION_BACKENDS = [
+    'apps.core.backends.EmailOrUsernameModelBackend',
+    # 'django.contrib.auth.backends.ModelBackend', # Comente ou remova este, pois o nosso já o substitui
+]
+
+# # 💡 NOVO: URL para redirecionamento após login bem-sucedido.
+# # O usuário será enviado para a página inicial ('/').
+# LOGIN_REDIRECT_URL = '/'

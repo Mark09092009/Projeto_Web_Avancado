@@ -1,8 +1,13 @@
 # Seu_App/forms.py
 
+# Se você já tem um CustomUserCreationForm no mesmo arquivo, ele deve estar aqui também.
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+
+from django import forms
+from django.contrib.auth.forms import AuthenticationForm 
+from django.utils.translation import gettext_lazy as _
 
 # Cria uma classe de formulário que herda do UserCreationForm
 class CustomUserCreationForm(UserCreationForm):
@@ -51,3 +56,26 @@ class CustomUserCreationForm(UserCreationForm):
         # email, nome, sobrenome, e os campos de senha (herdados por fatiamento)
         # UserCreationForm.Meta.fields[1:] omite o primeiro item ('username')
         fields = ('email', 'first_name', 'last_name') + UserCreationForm.Meta.fields[1:]
+
+class EmailAuthenticationForm(AuthenticationForm):
+    """
+    Formulário de Autenticação personalizado para usar "E-mail" como rótulo 
+    principal de login em vez de "Nome de Usuário".
+    """
+    # 1. Sobrescreve o campo 'username' para garantir o rótulo e o widget corretos.
+    username = forms.CharField(
+        label=_("E-mail"),
+        max_length=254,
+        widget=forms.EmailInput(attrs={'autofocus': True, 'class': 'form-control', 'placeholder': 'Seu e-mail'})
+    )
+    
+    # 2. Sobrescreve o campo 'password' para garantir o rótulo e a classe CSS.
+    password = forms.CharField(
+        label=_("Senha"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Sua senha'})
+    )
+
+    # Nota: O seu backend de autenticação (settings.py) precisa estar configurado 
+    # para permitir login via e-mail se você estiver usando e-mail. 
+    # Por padrão, o Django usa o campo 'username'.

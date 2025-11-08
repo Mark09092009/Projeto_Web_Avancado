@@ -5,25 +5,31 @@ O arquivo define as rotas principais do projeto Django.
 Cada "path()" mapeia uma URL a um conjunto de views, seja de um app ou do painel de administração.
 """
 
-from django.contrib import admin           # Importa o módulo de administração padrão do Django.
-from django.urls import path, include      # Importa as funções path e include.
+from django.contrib import admin # Importa o módulo de administração padrão do Django.
+from django.urls import path, include # Importa as funções path e include.
+from django.contrib.auth import views as auth_views # Importa as views de autenticação do Django
+
+# 🚨 IMPORTANTE: Importe o novo formulário de login que criamos
+from apps.core.forms import EmailAuthenticationForm 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     # 🔹 Define o caminho para o painel de administração.
-    # Exemplo: http://localhost:8000/admin/
-    # O Django já gera automaticamente as rotas e páginas dessa área.
 
     path('', include('apps.core.urls')),
-    # 🔹 A rota vazia ('') redireciona para o arquivo apps/core/urls.py.
-    # Isso significa que as rotas definidas em core.urls (como '/', '/sobre/') estarão acessíveis diretamente.
-    # Exemplo: '/' → página inicial / 'sobre/' → página sobre.
+    # 🔹 Rota principal.
 
     path('servicos/', include('apps.servicos.urls')),
-    # 🔹 Essa rota define que todas as URLs que começarem com 'servicos/'
-    # serão tratadas pelo arquivo apps/servicos/urls.py.
-    # Exemplo: '/servicos/' → lista de combustíveis e serviços.
+    # 🔹 Rota para serviços.
 
-    path('auth/', include('django.contrib.auth.urls')), 
-    # 🔹 Inclui novamente as URLs de autenticação padrão do Django (login, logout, password reset, etc.)
+    # 🚨 ALTERAÇÃO: Configura a rota 'login' explicitamente usando o formulário personalizado.
+    # O restante das rotas de autenticação (logout, password reset) serão incluídas
+    # a partir de 'django.contrib.auth.urls' no final.
+    path('auth/login/', auth_views.LoginView.as_view(
+        authentication_form=EmailAuthenticationForm, 
+        template_name='registration/login.html' # Ajuste este template se for diferente
+    ), name='login'),
+    
+    # 🔹 Inclui o restante das URLs de autenticação (logout, password reset, etc.)
+    path('auth/', include('django.contrib.auth.urls')),
 ]

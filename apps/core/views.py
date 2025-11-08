@@ -4,8 +4,33 @@ from django.contrib import messages
 from django.contrib.auth import login # Opcional: faz login automaticamente após o cadastro
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django import forms
+# Importa o formulário de autenticação padrão do Django
+from django.contrib.auth.forms import AuthenticationForm 
+from django.utils.translation import gettext_lazy as _
 # IMPORTANTE: Mude a importação para o seu formulário personalizado!
 from .forms import CustomUserCreationForm # Certifique-se de que a importação esteja correta
+class EmailAuthenticationForm(AuthenticationForm):
+    """
+    Um formulário de autenticação que substitui o rótulo 'Username' por 'E-mail'.
+    O nome interno do campo deve permanecer 'username' para ser compatível com
+    o backend de autenticação padrão do Django (que verifica o campo USERNAME_FIELD).
+    """
+    # 1. Altera o widget para 'EmailInput' (apenas para semântica HTML)
+    # 2. Altera o rótulo (label) para 'E-mail'
+    username = forms.CharField(
+        label=_("E-mail"),
+        max_length=254,
+        widget=forms.EmailInput(attrs={'autofocus': True, 'class': 'form-control'})
+    )
+    
+    # O campo 'password' é herdado do AuthenticationForm e já está correto,
+    # mas o incluímos para garantir o widget e a classe CSS:
+    password = forms.CharField(
+        label=_("Senha"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={'class': 'form-control'})
+    )
 # ... (outras importações)
 
 
