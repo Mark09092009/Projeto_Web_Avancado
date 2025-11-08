@@ -137,7 +137,9 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ONDE REDIRECIONAR APÓS UM LOGIN BEM-SUCEDIDO
-LOGIN_REDIRECT_URL = '/'  # Redireciona para a página inicial (URL raiz)
+LOGIN_REDIRECT_URL = 'home'  # Redireciona para a página inicial (URL raiz)
 
 # ONDE ENCONTRAR O FORMULÁRIO DE LOGIN (usado por @login_required)
 LOGIN_URL = 'login' # O nome da URL de login
+
+LOGOUT_REDIRECT_URL = '/'  # Redireciona para a página inicial (URL raiz)

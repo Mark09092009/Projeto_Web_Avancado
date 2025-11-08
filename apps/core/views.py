@@ -1,4 +1,4 @@
-from django.shortcuts import render  # Importa a função render, usada para exibir páginas HTML.
+from django.shortcuts import render, redirect  # Importa a função render, usada para exibir páginas HTML.
 from django.contrib.auth.forms import UserCreationForm # Importa o formulário base do Django
 from django.contrib import messages
 from django.contrib.auth import login # Opcional: faz login automaticamente após o cadastro
