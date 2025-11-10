@@ -1,32 +1,38 @@
 {% extends "base.html" %}
-<!-- Indica que este arquivo usa o layout principal (base.html) como modelo, tudo que estiver dentro de % block content % vai aparecer no lugar certo dentro da base. -->
+<!-- Este arquivo utiliza o layout principal definido em "base.html". 
+     Todo o conteúdo dentro do bloco {% block content %} será inserido no local apropriado dentro do layout base. -->
 
 {% block content %}
-<!-- Início do conteúdo específico desta página (home). -->
+<!-- Início do conteúdo específico para esta página (home.html). -->
 
 <header class="p-5 text-center bg-light rounded-3">
-    <!-- Cria um cabeçalho com bastante espaçamento interno (p-5), texto centralizado e fundo claro. 
-         O 'rounded-3' dá cantos levemente arredondados. -->
+    <!-- Cria um cabeçalho com as seguintes características:
+         - Espaçamento interno grande (p-5) para dar mais "respiro" ao conteúdo.
+         - Texto centralizado (text-center) para melhor alinhamento visual.
+         - Fundo claro (bg-light) para destacar o cabeçalho.
+         - Bordas levemente arredondadas (rounded-3) para um visual mais moderno. -->
 
     <h1 class="display-4">{{ titulo }}</h1>
-    <!-- Exibe o título enviado pela view (ex: "Posto XYZ - Seu Combustível com Qualidade"). 
-         'display-4' é uma classe Bootstrap para deixar o texto grande e bonito. -->
+    <!-- Exibe o título dinâmico enviado pela view. 
+         A classe "display-4" do Bootstrap é usada para criar um texto grande e estiloso. -->
 
     <p class="lead">Qualidade, rapidez e o melhor atendimento da região.</p>
-    <!-- Texto de destaque abaixo do título, estilo "slogan". -->
+    <!-- Parágrafo de destaque (lead), geralmente usado para slogans ou mensagens importantes. -->
 
     <hr class="my-4">
-    <!-- Linha divisória horizontal (hr) com margens verticais médias (my-4). -->
+    <!-- Linha divisória horizontal (hr) com margens verticais médias (my-4) para separar visualmente os elementos. -->
 
     <p>Visite-nos hoje e sinta a diferença em seu veículo.</p>
-    <!-- Parágrafo com uma mensagem convidando o cliente. -->
+    <!-- Mensagem adicional para convidar os clientes a visitarem o local. -->
 
     <a class="btn btn-success btn-lg" href="{% url 'lista_servicos' %}" role="button">
         Ver Combustíveis e Serviços
     </a>
-    <!-- Botão grande e verde (btn-success, btn-lg) que leva o usuário até a página de serviços. 
-         O link é dinâmico e usa o nome da rota 'lista_servicos'. -->
+    <!-- Botão grande e estilizado com as classes do Bootstrap:
+         - "btn-success": cor verde para indicar ação positiva.
+         - "btn-lg": tamanho grande para chamar atenção.
+         O botão redireciona para a página de serviços, utilizando a URL dinâmica definida pela rota 'lista_servicos'. -->
 </header>
 
 {% endblock %}
-<!-- Fim do conteúdo principal da página inicial. -->
+<!-- Fim do conteúdo específico desta página. -->

@@ -1,22 +1,33 @@
-{% extends "base.html" %} <!-- Herda o layout principal (base.html) -->
+{% extends "base.html" %} <!-- Este template herda o layout principal definido em "base.html". -->
 
-{% block content %} <!-- Início do conteúdo específico da página -->
+{% block content %} <!-- Define o bloco de conteúdo específico para esta página. -->
 
-<h1>Nossos Combustíveis e Serviços</h1> <!-- Título principal da página -->
-<p>Confira a tabela de preços e os serviços disponíveis.</p> <!-- Texto introdutório -->
+<h1>Nossos Combustíveis e Serviços</h1> <!-- Título principal da página. -->
+<p>Confira a tabela de preços e os serviços disponíveis.</p> <!-- Texto introdutório para os usuários. -->
 
-<div class="row row-cols-1 row-cols-md-2 g-4"> <!-- Cria uma grade de cards responsiva (1 coluna no celular, 2 no PC) -->
-    {% for servico in servicos %} <!-- Loop que percorre a lista de serviços enviada pela view -->
-    <div class="col"> <!-- Cada serviço ocupa uma coluna -->
-        <div class="card h-100 shadow-sm"> <!-- Card com altura igual e leve sombra -->
-            <div class="card-body"> <!-- Corpo principal do card -->
-                <h5 class="card-title text-danger">{{ servico.nome }}</h5> <!-- Exibe o nome do serviço em vermelho -->
-                <p class="card-text">{{ servico.descricao }}</p> <!-- Mostra a descrição do serviço -->
-                <span class="badge bg-success fs-5">{{ servico.preco }}</span> <!-- Mostra o preço em destaque com cor verde -->
+<div class="row row-cols-1 row-cols-md-2 g-4"> 
+    <!-- Cria uma grade responsiva para exibir os serviços em formato de cards. 
+         No celular, os cards aparecem em uma única coluna (row-cols-1), 
+         enquanto em telas maiores (como PCs), aparecem em duas colunas (row-cols-md-2). -->
+         
+    {% for servico in servicos %} <!-- Inicia um loop para iterar sobre a lista de serviços enviada pela view. -->
+    <div class="col"> <!-- Cada serviço será exibido em uma coluna da grade. -->
+        <div class="card h-100 shadow-sm"> 
+            <!-- Cria um card com altura uniforme (h-100) e uma leve sombra (shadow-sm) para destacar o conteúdo. -->
+            
+            <div class="card-body"> <!-- Define o corpo principal do card. -->
+                <h5 class="card-title text-danger">{{ servico.nome }}</h5> 
+                <!-- Exibe o nome do serviço em destaque com a cor vermelha. -->
+                
+                <p class="card-text">{{ servico.descricao }}</p> 
+                <!-- Mostra a descrição do serviço fornecida pela view. -->
+                
+                <span class="badge bg-success fs-5">{{ servico.preco }}</span> 
+                <!-- Exibe o preço do serviço em destaque, com um fundo verde e fonte maior (fs-5). -->
             </div>
         </div>
     </div>
-    {% endfor %} <!-- Fim do loop -->
+    {% endfor %} <!-- Finaliza o loop que percorre a lista de serviços. -->
 </div>
 
-{% endblock %} <!-- Fim do conteúdo da página -->
+{% endblock %} <!-- Finaliza o bloco de conteúdo específico da página. -->
