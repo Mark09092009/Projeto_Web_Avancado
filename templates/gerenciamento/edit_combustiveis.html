@@ -1,5 +1,6 @@
 {% extends "base.html" %} 
 {% load static %} 
+{% load l10n %} <!-- NOVO: Carrega o módulo de localização -->
 {% block title %}{{ titulo }}{% endblock %} 
 
 {% block content %}
@@ -54,7 +55,8 @@
                                         min="0"
                                         class="form-control form-control-sm"
                                         style="width: 120px"
-                                        value="{{ item.preco_atual_litro|floatformat:2 }}"
+                                        placeholder="0.00"
+                                        value="{% if item.preco_atual_litro > 0 %}{{ item.preco_atual_litro|unlocalize }}{% endif %}"
                                     />
                                     <button class="btn btn-sm btn-success" type="submit">
                                         Atualizar
@@ -87,7 +89,8 @@
                                         min="0"
                                         class="form-control form-control-sm"
                                         style="width: 120px"
-                                        value="{{ serv.preco_unitario|floatformat:2 }}"
+                                        placeholder="0.00"
+                                        value="{% if serv.preco_unitario > 0 %}{{ serv.preco_unitario|unlocalize }}{% endif %}"
                                     />
                                     <button class="btn btn-sm btn-success" type="submit">
                                         Atualizar

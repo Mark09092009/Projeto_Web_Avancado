@@ -68,12 +68,25 @@ def register(request):
     return render(request, 'registration/register.html', {'form': form})
 
 def contato(request):
+    # 1. Redireciona usuários não logados, já que o email não está mais no formulário.
+    if not request.user.is_authenticated:
+        messages.error(request, 'Você precisa estar logado para enviar uma mensagem de contato.')
+        return redirect('login') 
+
     if request.method == 'POST':
-        form = ContatoForm(request.POST) 
+        # 2. Cria uma cópia mutável dos dados POST
+        post_data = request.POST.copy()
+        
+        # 3. Injete o email do usuário logado na cópia dos dados
+        post_data['email'] = request.user.email
+        
+        # 4. Instancia o formulário com os dados modificados (agora contendo o email)
+        form = ContatoForm(post_data)
         
         if form.is_valid():
             cleaned_data = form.cleaned_data 
             nome = cleaned_data['nome']
+            # O email agora vem dos dados injetados.
             email = cleaned_data['email']
             assunto = cleaned_data.get('assunto', 'Contato pelo Site (Sem Assunto)') 
             mensagem = cleaned_data['mensagem']
@@ -92,7 +105,7 @@ def contato(request):
             return redirect('home')
             
     else:
-        # Se for um GET (primeira visita) ou falhar na validação
+        # Se for um GET (primeira visita) ou falhar na validação, exibe o formulário
         form = ContatoForm()
 
     # CORREÇÃO: Passa sempre o objeto 'form' para o template.
