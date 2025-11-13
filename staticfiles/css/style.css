@@ -1,0 +1,27 @@
+/*
+ * static/css/style.css
+ *
+ * Estilos globais da aplicação. Mantemos regras simples para não
+ * conflitar com o Bootstrap (que fornece a maior parte da UI).
+ * Comentários explicativos em português para facilitar manutenção.
+ */
+
+/* Estilo base do <body>: cor de fundo clara e layout com coluna flex para
+   permitir que o footer 'empurre' o conteúdo quando a página for curta. */
+body {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Pequeno detalhe visual na navbar (linha amarela abaixo) para destaque. */
+.navbar {
+    border-bottom: 5px solid #ffc107;
+    /* Detalhe amarelo */
+}
+
+/* Faz a <main> crescer para ocupar o espaço restante do body flex. */
+main {
+    flex-grow: 1;
+}

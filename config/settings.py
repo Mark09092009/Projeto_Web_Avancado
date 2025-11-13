@@ -104,9 +104,6 @@ TIME_ZONE = 'America/Sao_Paulo'  # Fuso horário
 USE_I18N = True  # Habilita tradução
 USE_TZ = True  # Habilita suporte a fuso horário
 
-# Configurações de arquivos estáticos
-STATIC_URL = '/static/'  # URL base para arquivos estáticos
-STATICFILES_DIRS = [BASE_DIR / "static"]  # Diretório adicional para arquivos estáticos
 
 # Tipo de chave primária padrão para modelos
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -131,3 +128,7 @@ AUTHENTICATION_BACKENDS = [
     'apps.core.backends.EmailOrUsernameModelBackend',  # Backend personalizado para login via e-mail ou nome de usuário
     # 'django.contrib.auth.backends.ModelBackend',  # Backend padrão do Django (substituído pelo personalizado)
 ]
+
+STATIC_URL = '/static/'  # URL base para arquivos estáticos
+STATICFILES_DIRS = [BASE_DIR / "static"]  # Diretório adicional para arquivos estáticos
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
