@@ -1,0 +1,151 @@
+{% extends "base.html" %} 
+{% load widget_tweaks %} 
+
+{% block title %}{{ titulo }}{% endblock %} 
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-success">{{ titulo }}</h2>
+
+    <div class="row g-4">
+        
+        <div class="col-lg-5 mb-4">
+            <div class="card shadow-lg border-dark h-100">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">Simulação Rápida (Compra / Venda)</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            {% for field in form %}
+                            <div class="col-12">
+                                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                                {% render_field field class="form-control" %}
+                                {% if field.errors %}
+                                    {% for error in field.errors %}
+                                        <div class="text-danger small">{{ error }}</div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                            
+                            <div class="col-12 mt-4">
+                                <button type="submit" class="btn btn-success w-100">
+                                    Calcular Simulação
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    {% if simulacao_resultado %}
+                    <div class="mt-4 p-3 border rounded">
+                        <h5>
+                            Resultado da Simulação de {{ simulacao_resultado.tipo|default:''|capfirst }}
+                        </h5>
+                        <ul class="list-unstyled">
+                            <li>
+                                Item: <strong>{{ simulacao_resultado.item_label|default:'N/A' }}</strong>
+                            </li>
+                            <li>
+                                Quantidade:
+                                <strong>{{ simulacao_resultado.quantidade|default:'0.00'|floatformat:2 }}</strong>
+                            </li>
+                            <li>
+                                Preço Unitário:
+                                <strong>R$ {{ simulacao_resultado.preco_unitario|default:'0.00'|floatformat:2 }}</strong>
+                            </li>
+                            
+                            {# CORREÇÃO FINAL: Usando sintaxe segura para o yesno e bloco IF para o sinal de negativo #}
+                            <li class="h4 mt-2 text-{{ simulacao_resultado.is_entrada|default:False|yesno:"success,danger" }}">
+                                Total:
+                                {# Se is_entrada for False (Saída/Compra), adiciona o hífen. Caso contrário, deixa vazio. #}
+                                <strong>{% if simulacao_resultado.is_entrada|default:False %}{% else %}-{% endif %}R$ {{ simulacao_resultado.total|default:'0.00'|floatformat:2 }}</strong>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7 mb-4">
+            <div class="card shadow-lg h-100">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">Histórico de Transações Recentes</h5>
+                </div>
+                <div class="card-body">
+                    
+                    <h6 class="text-success">
+                        Últimas Entradas de Caixa (Vendas e Receitas)
+                    </h6>
+                    <ul class="list-group mb-4">
+                        {% for venda in vendas %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div class="d-flex flex-column flex-sm-row align-items-sm-center text-start">
+                                <span class="badge text-bg-danger me-sm-2 mb-1 mb-sm-0">-{{ venda.quantidade_litros|floatformat:2 }} L</span>
+                                <span class="text-nowrap">{{ venda.combustivel.get_tipo_display }}</span>
+                            </div>
+                            
+                            <div class="d-flex flex-column flex-sm-row align-items-sm-center text-end">
+                                <span class="text-muted small me-sm-3 text-nowrap">{{ venda.data_venda|date:"d/m/Y H:i" }}</span>
+                                <strong class="text-success text-nowrap">R$ {{ venda.total_venda|floatformat:2 }}</strong>
+                            </div>
+                        </li>
+                        {% empty %}
+                        <li class="list-group-item text-muted">
+                            Nenhum registro de venda encontrado.
+                        </li>
+                        {% endfor %}
+                    </ul>
+
+                    <h6 class="text-danger">
+                        Últimas Saídas de Caixa (Compras e Despesas)
+                    </h6>
+                    <ul class="list-group">
+                        {% for compra in compras %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div class="d-flex flex-column flex-sm-row align-items-sm-center text-start">
+                                <span class="badge text-bg-success me-sm-2 mb-1 mb-sm-0">+{{ compra.quantidade_litros|floatformat:2 }} L</span>
+                                <span class="text-nowrap">{{ compra.combustivel.get_tipo_display }}</span>
+                            </div>
+                            
+                            <div class="d-flex flex-column flex-sm-row align-items-sm-center text-end">
+                                <span class="text-muted small me-sm-3 text-nowrap">{{ compra.data_compra|date:"d/m/Y H:i" }}</span>
+                                <strong class="text-danger text-nowrap">-R$ {{ compra.total_compra|floatformat:2 }}</strong>
+                            </div>
+                        </li>
+                        {% empty %}
+                        <li class="list-group-item text-muted">
+                            Nenhum registro de compra encontrado.
+                        </li>
+                        {% endfor %}
+                    </ul>
+
+                    <h6 class="text-secondary mt-4">Últimos Serviços Registrados</h6>
+                    <ul class="list-group mt-2">
+                        {% for reg in registros_servicos %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div class="d-flex flex-column flex-sm-row align-items-sm-center text-start">
+                                <span class="badge bg-secondary me-sm-2 mb-1 mb-sm-0">{{ reg.get_tipo_display }}</span>
+                                <span class="text-nowrap">{{ reg.servico.nome }}</span>
+                            </div>
+                            
+                            <div class="d-flex flex-column flex-sm-row align-items-sm-center text-end">
+                                <span class="text-muted small me-sm-3 text-nowrap">{{ reg.data|date:"d/m/Y H:i" }}</span>
+                                <strong class="text-success text-nowrap">R$ {{ reg.total|floatformat:2 }}</strong>
+                            </div>
+                        </li>
+                        {% empty %}
+                        <li class="list-group-item text-muted">
+                            Nenhum registro de serviço.
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

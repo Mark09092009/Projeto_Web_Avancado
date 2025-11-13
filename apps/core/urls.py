@@ -17,4 +17,6 @@ urlpatterns = [
     # Define a rota para a URL http://localhost:8000/register/.
     # Quando o usuário acessa essa URL, a função 'register' do arquivo 'views.py' será executada.
     # O parâmetro 'name="register"' facilita a criação de links para essa rota no HTML.
+
+    path('contato/', views.contato, name='contato'),
 ]

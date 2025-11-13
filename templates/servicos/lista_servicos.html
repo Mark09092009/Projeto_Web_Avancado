@@ -1,33 +1,67 @@
-{% extends "base.html" %} <!-- Este template herda o layout principal definido em "base.html". -->
+{% extends "base.html" %}
+{# Herda o layout principal definido em "base.html". #}
 
-{% block content %} <!-- Define o bloco de conteúdo específico para esta página. -->
+{% block content %}
+{# Define o bloco de conteúdo específico para esta página. #}
 
-<h1>Nossos Combustíveis e Serviços</h1> <!-- Título principal da página. -->
-<p>Confira a tabela de preços e os serviços disponíveis.</p> <!-- Texto introdutório para os usuários. -->
+<header class="mb-4">
+    <h1 class="display-4">Nossos Combustíveis e Serviços</h1>
+    {# Título principal com estilo Bootstrap para maior impacto. #}
+    <p class="lead">Confira a tabela de preços e os serviços disponíveis.</p>
+    {# Texto introdutório com estilo "lead" para destaque. #}
+</header>
 
-<div class="row row-cols-1 row-cols-md-2 g-4"> 
-    <!-- Cria uma grade responsiva para exibir os serviços em formato de cards. 
-         No celular, os cards aparecem em uma única coluna (row-cols-1), 
-         enquanto em telas maiores (como PCs), aparecem em duas colunas (row-cols-md-2). -->
-         
-    {% for servico in servicos %} <!-- Inicia um loop para iterar sobre a lista de serviços enviada pela view. -->
-    <div class="col"> <!-- Cada serviço será exibido em uma coluna da grade. -->
-        <div class="card h-100 shadow-sm"> 
-            <!-- Cria um card com altura uniforme (h-100) e uma leve sombra (shadow-sm) para destacar o conteúdo. -->
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {# Aumenta a responsividade: 1 coluna (celular), 2 (tablet), 3 (PC grande). #}
+    
+    {% for servico in servicos %}
+    {# Inicia o loop sobre a lista de serviços enviada pela view. #}
+    
+    <div class="col">
+        {# Cada serviço será exibido em uma coluna da grade. #}
+        <article class="card h-100 shadow-sm border-0" aria-labelledby="servico-{{ forloop.counter }}">
+            {# Usa <article> para semântica. Adiciona border-0 e ARIA para acessibilidade. #}
             
-            <div class="card-body"> <!-- Define o corpo principal do card. -->
-                <h5 class="card-title text-danger">{{ servico.nome }}</h5> 
-                <!-- Exibe o nome do serviço em destaque com a cor vermelha. -->
+            <div class="card-body d-flex flex-column">
+                {# Utiliza flex-column para garantir que o badge de preço fique sempre embaixo. #}
                 
-                <p class="card-text">{{ servico.descricao }}</p> 
-                <!-- Mostra a descrição do serviço fornecida pela view. -->
+                <h2 class="card-title text-danger fs-4" id="servico-{{ forloop.counter }}">
+                    {{ servico.nome }}
+                </h2>
+                {# Usa <h2> para hierarquia de títulos dentro do bloco. fs-4 para tamanho. #}
                 
-                <span class="badge bg-success fs-5">{{ servico.preco }}</span> 
-                <!-- Exibe o preço do serviço em destaque, com um fundo verde e fonte maior (fs-5). -->
+                <p class="card-text mb-3 flex-grow-1">
+                    {{ servico.descricao }}
+                </p>
+                {# flex-grow-1 garante que a descrição ocupe o espaço necessário para manter o rodapé uniforme. #}
+
+                {# Lógica de Preço Simplificada e Melhorada #}
+                {% with preco=servico.preco_unitario|default:"0.00"|floatformat:2 %}
+                {# Define uma variável 'preco' para simplificar o bloco. Default para 0.00 se for nulo. #}
+                <div class="mt-auto">
+                    {# Empurra o preço para baixo do card (funciona com d-flex flex-column). #}
+                    <span class="badge bg-success fs-5 p-2">
+                        R$ {{ preco }}
+                    </span>
+                    <span class="visually-hidden">Preço unitário: R$ {{ preco }}</span>
+                    {# Adiciona texto escondido para leitores de tela interpretarem o valor. #}
+                </div>
+                {% endwith %}
+
             </div>
+        </article>
+    </div>
+    
+    {% empty %}
+    {# Bloco opcional para exibir algo caso a lista 'servicos' esteja vazia. #}
+    <div class="col-12">
+        <div class="alert alert-info" role="alert">
+            Nenhum combustível ou serviço encontrado no momento.
         </div>
     </div>
-    {% endfor %} <!-- Finaliza o loop que percorre a lista de serviços. -->
+    {% endfor %}
+    
 </div>
 
-{% endblock %} <!-- Finaliza o bloco de conteúdo específico da página. -->
+{% endblock %}
+{# Finaliza o bloco de conteúdo. #}

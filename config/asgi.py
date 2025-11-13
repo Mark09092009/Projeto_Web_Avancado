@@ -1,16 +1,18 @@
 """
-ASGI config for config project.
+ASGI config para o projeto `config`.
 
-It exposes the ASGI callable as a module-level variable named ``application``.
+Este arquivo expõe o objeto WSGI/ASGI `application` que servidores
+compatíveis (uvicorn, daphne, etc.) usam para servir a aplicação.
 
-For more information on this file, see
-https://docs.djangoproject.com/en/5.2/howto/deployment/asgi/
+Traduzido/explicado em português para facilitar a leitura do projeto.
 """
 
 import os
 
 from django.core.asgi import get_asgi_application
 
+# Define a variável de ambiente que aponta para as configurações do Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
+# Obtém o objeto ASGI que o servidor usará para lidar com requisições
 application = get_asgi_application()

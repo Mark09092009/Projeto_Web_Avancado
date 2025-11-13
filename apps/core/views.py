@@ -6,6 +6,10 @@ from django import forms  # Importa ferramentas para criar e manipular formulár
 from django.contrib.auth.forms import AuthenticationForm  # Formulário padrão de autenticação do Django.
 from django.utils.translation import gettext_lazy as _  # Permite traduzir textos para diferentes idiomas.
 from .forms import CustomUserCreationForm  # Importa um formulário personalizado para criação de usuários.
+from django.shortcuts import render, redirect
+from django.core.mail import send_mail
+from .forms import ContatoForm
+from django.conf import settings
 
 # Classe personalizada para autenticação via e-mail.
 class EmailAuthenticationForm(AuthenticationForm):
@@ -62,3 +66,34 @@ def register(request):
 
     # Renderiza o template de registro, passando o formulário como contexto.
     return render(request, 'registration/register.html', {'form': form})
+
+def contato(request):
+    if request.method == 'POST':
+        form = ContatoForm(request.POST) 
+        
+        if form.is_valid():
+            cleaned_data = form.cleaned_data 
+            nome = cleaned_data['nome']
+            email = cleaned_data['email']
+            assunto = cleaned_data.get('assunto', 'Contato pelo Site (Sem Assunto)') 
+            mensagem = cleaned_data['mensagem']
+
+            # NOVIDADE: from_email agora é o e-mail do cliente, 
+            # e recipient_list é o e-mail do posto.
+            send_mail(
+                subject=f'Contato do Site: {assunto} (De: {nome})', 
+                message=f'Nome: {nome}\nEmail: {email}\nMensagem: {mensagem}', 
+                from_email=email, # O e-mail do cliente
+                recipient_list=[settings.DEFAULT_FROM_EMAIL], # O e-mail do posto (o seu Gmail)
+                fail_silently=False,
+            )
+            
+            messages.success(request, 'Sua mensagem foi enviada com sucesso! Em breve, entraremos em contato.')
+            return redirect('home')
+            
+    else:
+        # Se for um GET (primeira visita) ou falhar na validação
+        form = ContatoForm()
+
+    # CORREÇÃO: Passa sempre o objeto 'form' para o template.
+    return render(request, 'core/contato.html', {'form': form})

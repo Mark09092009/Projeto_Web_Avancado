@@ -1,11 +1,22 @@
 #!/usr/bin/env python
-"""Django's command-line utility for administrative tasks."""
+"""
+Entrypoint de linha de comando do Django para tarefas administrativas.
+
+Este script é o wrapper padrão gerado pelo Django e permite executar
+comandos como `runserver`, `migrate`, `createsuperuser`, etc. Em geral não
+é necessário modificá-lo, mas é útil ter documentação rápida sobre seu uso.
+"""
+
 import os
 import sys
 
 
 def main():
-    """Run administrative tasks."""
+    """Executa tarefas administrativas usando a API de gerenciamento do Django.
+
+    Define a variável de ambiente `DJANGO_SETTINGS_MODULE` caso não esteja
+    definida e delega a execução para `django.core.management.execute_from_command_line`.
+    """
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
     try:
         from django.core.management import execute_from_command_line

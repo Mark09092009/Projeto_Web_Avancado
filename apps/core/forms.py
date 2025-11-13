@@ -75,3 +75,35 @@ class EmailAuthenticationForm(AuthenticationForm):
 
     # Nota: Para que o login funcione com e-mail, o backend de autenticação no settings.py
     # deve ser configurado para aceitar e-mails como credenciais de login.
+
+# apps/core/forms.py
+class ContatoForm(forms.Form):
+    # Os campos devem corresponder aos 'name' dos inputs no seu HTML
+    nome = forms.CharField(max_length=100, label='Seu Nome')
+    email = forms.EmailField(label='Seu E-mail')
+    assunto = forms.CharField(max_length=100, required=False, label='Assunto')
+    mensagem = forms.CharField(widget=forms.Textarea, label='Mensagem')
+
+# apps/core/forms.py
+class ContatoForm(forms.Form):
+    # Adicionando a classe 'form-control' via widget para todos os campos
+    nome = forms.CharField(
+        max_length=100, 
+        label='Seu Nome',
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    email = forms.EmailField(
+        label='Seu E-mail',
+        widget=forms.EmailInput(attrs={'class': 'form-control'})
+    )
+    assunto = forms.CharField(
+        max_length=100, 
+        required=False, 
+        label='Assunto',
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    mensagem = forms.CharField(
+        label='Mensagem',
+        # Textarea precisa do widget Textarea com a classe
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}) 
+    )

@@ -34,4 +34,7 @@ urlpatterns = [
     # 🔹 Inclui as rotas padrão de autenticação do Django (logout, password reset, etc.).
     # Essas rotas são fornecidas pelo módulo `django.contrib.auth.urls`.
     path('auth/', include('django.contrib.auth.urls')),
+
+    # 🔹 Inclui as rotas para os elementos do gerenciamento.
+    path('gerenciamento/', include('apps.gerenciamento.urls')),
 ]
