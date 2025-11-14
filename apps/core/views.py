@@ -68,6 +68,10 @@ def register(request):
     return render(request, 'registration/register.html', {'form': form})
 
 def contato(request):
+    """
+    View para lidar com o formulário de contato. Requer que o usuário esteja logado 
+    para injetar automaticamente o e-mail na transação de envio.
+    """
     # 1. Redireciona usuários não logados, já que o email não está mais no formulário.
     if not request.user.is_authenticated:
         messages.error(request, 'Você precisa estar logado para enviar uma mensagem de contato.')
