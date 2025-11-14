@@ -1,51 +1,35 @@
 {% extends "base.html" %} 
-{# Este bloco estende o template base.html, herdando sua estrutura e estilos. #}
 
 {% load static %} 
-{# Carrega a tag 'static' para uso de arquivos estáticos no template. #}
 
 {% load widget_tweaks %} 
-{# Carrega a biblioteca 'widget_tweaks' para customizar widgets de formulários. #}
 
 {% block title %}Cadastro de Usuário{% endblock %} 
-{# Define o título da página como "Cadastro de Usuário". #}
 
 {% block content %} 
-{# Início do bloco de conteúdo principal da página. #}
 
 <div class="container mt-5"> 
-    {# Cria um container com margem superior para centralizar o conteúdo. #}
     <div class="card-body"> 
-        {# Define uma seção de corpo de cartão para estilizar o formulário. #}
         <form method="post" action="{% url 'register' %}"> 
-            {# Início do formulário com método POST e ação para a URL nomeada 'register'. #}
             {% csrf_token %} 
-            {# Adiciona um token CSRF para segurança contra ataques CSRF. #}
 
             {% for field in form %} 
-                {# Itera sobre os campos do formulário. #}
                 <div class="mb-3"> 
-                    {# Cria um div com margem inferior para cada campo. #}
                     <label for="{{ field.id_for_label }}" class="form-label"> 
-                        {# Renderiza o rótulo do campo com o atributo 'for' vinculado ao ID do campo. #}
                         {{ field.label }}
                     </label>
                     
                     {% render_field field class="form-control" %} 
-                    {# Renderiza o campo do formulário com a classe CSS 'form-control' para estilização. #}
                     
                     {% for error in field.errors %} 
-                        {# Itera sobre os erros do campo, se houver. #}
                         <div class="alert alert-danger mt-1">{{ error }}</div> 
-                        {# Exibe cada erro em um alerta estilizado com Bootstrap. #}
                     {% endfor %}
                 </div>
             {% endfor %}
             <button type="submit" class="btn btn-success w-100 mt-3">Registrar</button> 
-            {# Botão de envio do formulário com estilo Bootstrap. #}
+            
         </form>
     </div>
 </div>
 
 {% endblock %} 
-{# Fim do bloco de conteúdo principal. #}

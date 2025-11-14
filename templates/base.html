@@ -112,7 +112,7 @@
                 let messageText = messageElement.innerText;
                 // Determina a tag da mensagem para ajustar o modal
                 let messageTags = messageElement.classList.contains('alert-success') ? 'success' : 
-                                  messageElement.classList.contains('alert-danger') ? 'danger' : 'info';
+                                    messageElement.classList.contains('alert-danger') ? 'danger' : 'info';
                 
                 document.getElementById('modal-message-content').innerText = messageText;
 
@@ -163,8 +163,8 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     
                     <a class="btn btn-danger" 
-                       onclick="document.getElementById('logoutForm').submit();" 
-                       data-bs-dismiss="modal">
+                        onclick="document.getElementById('logoutForm').submit();" 
+                        data-bs-dismiss="modal">
                         Sim, Sair
                     </a>
                 </div>

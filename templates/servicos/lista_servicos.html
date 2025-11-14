@@ -1,8 +1,6 @@
 {% extends "base.html" %}
-{# Herda o layout principal definido em "base.html". #}
 
 {% block content %}
-{# Define o bloco de conteúdo específico para esta página. #}
 
 <header class="mb-4">
     <h1 class="display-4">Nossos Serviços</h1>
@@ -20,20 +18,20 @@
     <div class="col">
         {# Cada serviço será exibido em uma coluna da grade. #}
         <article class="card h-100 shadow-sm border-0" aria-labelledby="servico-{{ forloop.counter }}">
-            {# Usa <article> para semântica. Adiciona border-0 e ARIA para acessibilidade. #}
+            
             
             <div class="card-body d-flex flex-column">
-                {# Utiliza flex-column para garantir que o badge de preço fique sempre embaixo. #}
+                
                 
                 <h2 class="card-title text-danger fs-4" id="servico-{{ forloop.counter }}">
                     {{ servico.nome }}
                 </h2>
-                {# Usa <h2> para hierarquia de títulos dentro do bloco. fs-4 para tamanho. #}
+                
                 
                 <p class="card-text mb-3 flex-grow-1">
                     {{ servico.descricao }}
                 </p>
-                {# flex-grow-1 garante que a descrição ocupe o espaço necessário para manter o rodapé uniforme. #}
+                
 
                 {# Lógica de Preço Simplificada e Melhorada #}
                 {% with preco=servico.preco_unitario|default:"0.00"|floatformat:2 %}

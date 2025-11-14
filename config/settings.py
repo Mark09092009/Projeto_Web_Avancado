@@ -110,7 +110,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # URLs para redirecionamento após login/logout
 LOGIN_REDIRECT_URL = 'home'  # Redireciona para a página inicial após login
-LOGIN_URL = 'login'  # URL para a página de login
+LOGIN_URL = 'login'  # URL para a página de login 
 LOGOUT_REDIRECT_URL = '/'  # Redireciona para a página inicial após logout
 
 # Configurações de envio de e-mails
