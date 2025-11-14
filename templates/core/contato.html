@@ -18,7 +18,6 @@
                     <form method="POST" action="{% url 'contato' %}">
                         {% csrf_token %} 
                         
-                        <!-- RENDERIZA APENAS OS CAMPOS QUE NÃO SÃO O 'EMAIL' -->
                         {% for field in form %}
                             {% if field.name != 'email' %}
                                 <div class="mb-3">

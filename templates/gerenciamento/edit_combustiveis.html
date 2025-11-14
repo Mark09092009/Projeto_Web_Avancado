@@ -1,37 +1,22 @@
-{#  EXTENSÃO DO TEMPLATE BASE                                   #}
-{#  Usa o layout base.html como estrutura principal do site     #}
 {% extends "base.html" %}
-
-{# Carrega arquivos estáticos (CSS, JS, imagens, etc.) #}
 {% load static %}
-
-{# Carrega funções de localização (ex: remover formatação numérica brasileiras) #}
 {% load l10n %}
 
-{# Título da aba da página (vem da view) #}
 {% block title %}{{ titulo }}{% endblock %}
 
-{# Início do conteúdo principal da página #}
 {% block content %}
 <div class="container mt-5">
 
-    {# Cabeçalho com título e botões de navegação #}
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
-
-        {# Título (responsivo) #}
         <h2 class="mb-3 mb-md-0 text-primary">{{ titulo }}</h2>
 
-        {# Botões de navegação (responsivos) #}
         <div class="d-grid gap-2 d-md-block">
-
-            {# Botão para a página Financeiro #}
             <a href="{% url 'financeiro' %}" class="btn btn-info w-100 w-md-auto">
                 <i class="fas fa-chart-line"></i>
                 <span class="d-none d-md-inline">Ir para Financeiro</span>
                 <span class="d-inline d-md-none">Financeiro</span>
             </a>
 
-            {# Botão para voltar ao Estoque de Gasolina #}
             <a href="{% url 'estoque_gasolina' %}" class="btn btn-secondary w-100 w-md-auto">
                 <i class="fas fa-warehouse"></i>
                 <span class="d-none d-md-inline">Voltar ao Estoque</span>
@@ -40,24 +25,20 @@
         </div>
     </div>
 
-    {# Card que contém a tabela e os formulários #}
     <div class="card mb-4 shadow-sm">
         <div class="card-body">
 
-            {# Texto explicativo no topo #}
             <p class="text-muted">
                 Edite o preço atual por litro dos combustíveis e o preço unitário dos serviços.
                 Insira o novo preço e clique em "Atualizar".
             </p>
 
-            {# Exibição de mensagens do Django (sucesso, erro, etc.) #}
             {% if messages %}
             {% for message in messages %}
             <div class="alert alert-{{ message.tags }}">{{ message }}</div>
             {% endfor %}
             {% endif %}
 
-            {# Tabela com combustíveis e serviços #}
             <div class="table-responsive">
                 <table class="table table-sm table-striped">
                     <thead>
@@ -70,24 +51,14 @@
 
                     <tbody>
 
-                    
-                        {#  LISTAGEM DE COMBUSTÍVEIS                                     #}
-                    
                         {% for item in estoques %}
                         <tr>
-
-                            {# Nome do combustível (usa get_tipo_display para exibir texto) #}
                             <td class="text-nowrap">Combustível: {{ item.get_tipo_display }}</td>
 
                             <td>
-                                {# Formulário para atualizar o preço do combustível #}
                                 <form method="POST" class="d-flex gap-2 align-items-center">
                                     {% csrf_token %}
-
-                                    {# Campo oculto que envia o tipo e o ID (C:xx) #}
                                     <input type="hidden" name="pk" value="C:{{ item.pk }}" />
-
-                                    {# Campo do preço com step 0.01 e unlocalize para evitar formatação #}
                                     <input
                                         name="preco"
                                         type="number"
@@ -98,15 +69,12 @@
                                         placeholder="0.00"
                                         value="{% if item.preco_atual_litro > 0 %}{{ item.preco_atual_litro|unlocalize }}{% endif %}"
                                     />
-
-                                    {# Botão de enviar #}
                                     <button class="btn btn-sm btn-success" type="submit">
                                         Atualizar
                                     </button>
                                 </form>
                             </td>
 
-                            {# Data da última atualização do preço #}
                             <td>
                                 <span class="text-muted text-nowrap">
                                     Última: {{ item.data_ultima_atualizacao|date:"d/m/Y H:i" }}
@@ -115,30 +83,19 @@
                         </tr>
 
                         {% empty %}
-                        {# Caso não existam combustíveis #}
                         <tr>
                             <td colspan="3">Nenhum combustível encontrado.</td>
                         </tr>
                         {% endfor %}
 
-                    
-                        {#  LISTAGEM DE SERVIÇOS                                        #}
-                    
                         {% for serv in servicos %}
                         <tr>
-
-                            {# Nome do serviço #}
                             <td class="text-nowrap">Serviço: {{ serv.nome }}</td>
 
                             <td>
-                                {# Formulário de atualização do serviço #}
                                 <form method="POST" class="d-flex gap-2 align-items-center">
                                     {% csrf_token %}
-
-                                    {# Campo oculto com prefixo S para identificar serviço #}
                                     <input type="hidden" name="pk" value="S:{{ serv.pk }}" />
-
-                                    {# Campo do preço unitário #}
                                     <input
                                         name="preco"
                                         type="number"
@@ -149,15 +106,12 @@
                                         placeholder="0.00"
                                         value="{% if serv.preco_unitario > 0 %}{{ serv.preco_unitario|unlocalize }}{% endif %}"
                                     />
-
-                                    {# Botão enviar #}
                                     <button class="btn btn-sm btn-success" type="submit">
                                         Atualizar
                                     </button>
                                 </form>
                             </td>
 
-                            {# Data de criação do serviço (não muda) #}
                             <td>
                                 <span class="text-muted text-nowrap">
                                     Criado: {{ serv.criado_em|date:"d/m/Y H:i" }}
@@ -166,7 +120,6 @@
                         </tr>
 
                         {% empty %}
-                        {# Caso não existam serviços cadastrados #}
                         <tr>
                             <td colspan="3">Nenhum serviço extra encontrado.</td>
                         </tr>

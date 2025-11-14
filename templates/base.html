@@ -31,10 +31,7 @@
                     <li class="nav-item"><a class="nav-link" href="{% url 'sobre' %}">Sobre</a></li>
                     
                     {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'contato' %}">Contato</a>
-                        </li>
-                        
+                        <li class="nav-item"><a class="nav-link" href="{% url 'contato' %}">Contato</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'estoque_gasolina' %}">Estoque</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'financeiro' %}">Financeiro</a></li>
                         
@@ -42,11 +39,11 @@
                         
                         <li class="nav-item">
                             <a class="btn btn-danger" 
-                                href="#" 
-                                role="button"
-                                data-bs-toggle="modal" 
-                                data-bs-target="#logoutModal"
-                                onclick="event.preventDefault();"> 
+                               href="#" 
+                               role="button"
+                               data-bs-toggle="modal" 
+                               data-bs-target="#logoutModal"
+                               onclick="event.preventDefault();"> 
                                 Sair
                             </a>
                         </li>
@@ -65,7 +62,6 @@
     </nav>
     
     <main class="container my-4">
-        
         {% for message in messages %}
             <div class="alert alert-{{ message.tags }} django-message" role="alert" style="display:none;">
                 {{ message }}
@@ -110,16 +106,14 @@
             if (messages.length > 0) {
                 let messageElement = messages[0];
                 let messageText = messageElement.innerText;
-                // Determina a tag da mensagem para ajustar o modal
                 let messageTags = messageElement.classList.contains('alert-success') ? 'success' : 
-                                    messageElement.classList.contains('alert-danger') ? 'danger' : 'info';
+                                  messageElement.classList.contains('alert-danger') ? 'danger' : 'info';
                 
                 document.getElementById('modal-message-content').innerText = messageText;
 
                 const modalHeader = document.querySelector('#successModal .modal-header');
                 const modalTitle = document.querySelector('#successModal .modal-title');
                 
-                // Reseta e aplica a cor e título corretos
                 modalHeader.classList.remove('bg-success', 'bg-danger', 'bg-info');
                 
                 if (messageTags === 'danger') {
@@ -133,10 +127,8 @@
                     modalTitle.innerHTML = '✅ Sucesso!';
                 }
                 
-                // Remove o alerta do DOM para que ele não apareça duas vezes
                 messageElement.remove();
 
-                // Exibe o modal
                 const successModal = new bootstrap.Modal(document.getElementById('successModal'));
                 successModal.show();
             }
@@ -163,8 +155,8 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     
                     <a class="btn btn-danger" 
-                        onclick="document.getElementById('logoutForm').submit();" 
-                        data-bs-dismiss="modal">
+                       onclick="document.getElementById('logoutForm').submit();" 
+                       data-bs-dismiss="modal">
                         Sim, Sair
                     </a>
                 </div>

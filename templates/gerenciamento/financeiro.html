@@ -1,21 +1,14 @@
-{# DTL Tag: EXTENDS. Indica que este template herda a estrutura básica de "base.html" #}
-{% extends "base.html" %} 
-{# DTL Tag: LOAD. Carrega tags e filtros personalizados, neste caso, o pacote 'widget_tweaks' para estilizar campos de formulário #}
-{% load widget_tweaks %} 
+{% extends "base.html" %}
+{% load widget_tweaks %}
 
-{# DTL Tag: BLOCK. Define a seção de TÍTULO que será inserida no bloco correspondente em "base.html" #}
-{% block title %}{{ titulo }}{% endblock %} 
+{% block title %}{{ titulo }}{% endblock %}
 
-{# DTL Tag: BLOCK. Define a seção de CONTEÚDO principal que será inserida no bloco correspondente em "base.html" #}
 {% block content %}
 <div class="container mt-5">
-    {# Variável DTL: titulo. Exibe o título da página passado pelo contexto (views.py) #}
     <h2 class="mb-4 text-success">{{ titulo }}</h2>
 
-    {# Grid principal do Bootstrap (row g-4) para layout responsivo #}
     <div class="row g-4">
         
-        {# Coluna para o formulário de simulação #}
         <div class="col-lg-5 mb-4">
             <div class="card shadow-lg border-dark h-100">
                 <div class="card-header bg-dark text-white">
@@ -24,24 +17,18 @@
                 
                 <div class="card-body">
                     <form method="POST">
-                        {# DTL Tag: CSRF_TOKEN. Essencial para segurança em formulários POST no Django #}
                         {% csrf_token %}
                         <div class="row g-3">
-                            {# DTL Tag: FOR. Loop que itera sobre todos os campos do objeto 'form' (formulário Django) #}
                             {% for field in form %}
                             <div class="col-12">
                                 <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-                                {# DTL Filter/Tag: RENDER_FIELD (do widget_tweaks). Renderiza o campo, aplicando a classe CSS 'form-control' #}
                                 {% render_field field class="form-control" %}
-                                {# DTL Tag: IF. Verifica se o campo possui erros de validação #}
                                 {% if field.errors %}
-                                    {# DTL Tag: FOR. Itera sobre a lista de erros para exibir cada um #}
                                     {% for error in field.errors %}
                                         <div class="text-danger small">{{ error }}</div>
                                     {% endfor %}
                                 {% endif %}
                             </div>
-                            {# DTL Tag: ENDFOR. Fecha o loop dos campos #}
                             {% endfor %}
                             
                             <div class="col-12 mt-4">
@@ -52,11 +39,9 @@
                         </div>
                     </form>
 
-                    {# DTL Tag: IF. Exibe o resultado da simulação APENAS se a variável estiver definida no contexto #}
                     {% if simulacao_resultado %}
                     <div class="mt-4 p-3 border rounded">
                         <h5>
-                            {# Variável DTL: simulacao_resultado.tipo. Exibe o tipo de transação (e.g., Venda). 'capfirst' capitaliza a primeira letra. #}
                             Resultado da Simulação de {{ simulacao_resultado.tipo|default:''|capfirst }}
                         </h5>
                         <ul class="list-unstyled">
@@ -65,7 +50,6 @@
                             </li>
                             <li>
                                 Quantidade:
-                                {# DTL Filter: FLOatformat:2. Formata o número com 2 casas decimais #}
                                 <strong>{{ simulacao_resultado.quantidade|default:'0.00'|floatformat:2 }}</strong>
                             </li>
                             <li>
@@ -73,22 +57,17 @@
                                 <strong>R$ {{ simulacao_resultado.preco_unitario|default:'0.00'|floatformat:2 }}</strong>
                             </li>
                             
-                            {# DTL Filter: YESNO. Se for True, usa 'success' (verde); se False (default), usa 'danger' (vermelho) #}
                             <li class="h4 mt-2 text-{{ simulacao_resultado.is_entrada|default:False|yesno:"success,danger" }}">
                                 Total:
-                                {# Lógica para adicionar o sinal de negativo (-) para Saídas (compras) #}
                                 <strong>{% if simulacao_resultado.is_entrada|default:False %}{% else %}-{% endif %}R$ {{ simulacao_resultado.total|default:'0.00'|floatformat:2 }}</strong>
                             </li>
-                            
                         </ul>
                     </div>
-                    {# DTL Tag: ENDIF. Fecha a exibição condicional dos resultados #}
                     {% endif %}
                 </div>
             </div>
         </div>
 
-        {# Coluna para o Histórico de Transações #}
         <div class="col-lg-7 mb-4">
             <div class="card shadow-lg h-100">
                 <div class="card-header bg-dark text-white">
@@ -100,35 +79,29 @@
                         Últimas Entradas de Caixa (Vendas e Receitas)
                     </h6>
                     <ul class="list-group mb-4">
-                        {# DTL Tag: FOR. Inicia o loop para exibir as vendas #}
                         {% for venda in vendas %}
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div class="d-flex flex-column flex-sm-row align-items-sm-center text-start">
                                 <span class="badge text-bg-danger me-sm-2 mb-1 mb-sm-0">-{{ venda.quantidade_litros|floatformat:2 }} L</span>
-                                {# DTL Object Method: get_tipo_display. Usado para obter a representação legível de um campo 'choice' do modelo Django #}
                                 <span class="text-nowrap">{{ venda.combustivel.get_tipo_display }}</span>
                             </div>
                             
                             <div class="d-flex flex-column flex-sm-row align-items-sm-center text-end">
-                                {# DTL Filter: DATE. Formata a data e hora #}
                                 <span class="text-muted small me-sm-3 text-nowrap">{{ venda.data_venda|date:"d/m/Y H:i" }}</span>
                                 <strong class="text-success text-nowrap">R$ {{ venda.total_venda|floatformat:2 }}</strong>
                             </div>
                         </li>
-                        {# DTL Tag: EMPTY. Conteúdo exibido se o loop 'vendas' estiver vazio #}
                         {% empty %}
                         <li class="list-group-item text-muted">
                             Nenhum registro de venda encontrado.
                         </li>
                         {% endfor %}
-                        {# DTL Tag: ENDFOR. Fecha o loop das vendas #}
                     </ul>
 
                     <h6 class="text-danger">
                         Últimas Saídas de Caixa (Compras e Despesas)
                     </h6>
                     <ul class="list-group">
-                        {# DTL Tag: FOR. Inicia o loop para exibir as compras #}
                         {% for compra in compras %}
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div class="d-flex flex-column flex-sm-row align-items-sm-center text-start">
@@ -150,7 +123,6 @@
 
                     <h6 class="text-secondary mt-4">Últimos Serviços Registrados</h6>
                     <ul class="list-group mt-2">
-                        {# DTL Tag: FOR. Inicia o loop para exibir os serviços #}
                         {% for reg in registros_servicos %}
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div class="d-flex flex-column flex-sm-row align-items-sm-center text-start">
@@ -172,7 +144,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 </div>
-{# DTL Tag: ENDBLOCK. Fecha o bloco de conteúdo principal #}
 {% endblock content %}
