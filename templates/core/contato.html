@@ -1,37 +1,78 @@
-{% extends "shared/base.html" %} {% load static %} {% block title %}Fale Conosco - Posto Lucas{% endblock %} {% block content %}
-<div class="row justify-content-center">
-  <div class="col-lg-8">
-    <header class="text-center mb-5">
-      <h1 class="display-4 text-success">Entre em Contato 📞</h1>
-      <p class="lead">
-        Tire suas dúvidas, envie sugestões ou solicite um orçamento.
-      </p>
-    </header>
+{% extends "shared/base.html" %}
+{% load static %}
+{% block title %}Fale Conosco - Posto Lucas{% endblock %}
+{% block content %}
 
-    <div class="card shadow-lg p-4">
-      <div class="card-body">
-        <h5 class="card-title text-center mb-4">Envie uma Mensagem</h5>
+<div class="page-header text-center fade-in-up">
+  <div class="container">
+    <h1 class="display-4">Entre em Contato <i class="fas fa-envelope"></i></h1>
+    <p class="lead">Tire suas dúvidas, envie sugestões ou solicite um orçamento.</p>
+  </div>
+</div>
 
-        <form method="POST" action="{% url 'contato' %}">
-          {% csrf_token %} {% for field in form %} {% if field.name != 'email' %}
-          <div class="mb-3">
-            <label for="{{ field.id_for_label }}" class="form-label"
-              >{{ field.label }}</label
-            >
-            {{ field }} {% for error in field.errors %}
-            <div class="alert alert-danger">{{ error }}</div>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-lg fade-in-up">
+        <div class="card-body p-5">
+          <h5 class="card-title text-center mb-4 text-success">
+            <i class="fas fa-paper-plane me-2"></i>Envie uma Mensagem
+          </h5>
+
+          <form method="POST" action="{% url 'contato' %}">
+            {% csrf_token %}
+            {% for field in form %}
+              {% if field.name != 'email' %}
+              <div class="mb-3">
+                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                {{ field }}
+                {% for error in field.errors %}
+                <div class="alert alert-danger">{{ error }}</div>
+                {% endfor %}
+              </div>
+              {% endif %}
             {% endfor %}
-          </div>
-          {% endif %} {% endfor %}
 
-          <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-success btn-lg">
-              Enviar Mensagem
-            </button>
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-success btn-lg">
+                <i class="fas fa-send me-2"></i>Enviar Mensagem
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="row mt-5 text-center">
+        <div class="col-md-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <i class="fas fa-phone fa-2x text-warning mb-3"></i>
+              <h6>Ligue para nós</h6>
+              <p>(11) 9999-9999</p>
+            </div>
           </div>
-        </form>
+        </div>
+        <div class="col-md-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <i class="fas fa-envelope fa-2x text-success mb-3"></i>
+              <h6>Envie um e-mail</h6>
+              <p>postolucas.django@gmail.com</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <i class="fas fa-clock fa-2x text-warning mb-3"></i>
+              <h6>Horário de Funcionamento</h6>
+              <p>24 horas por dia</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
 {% endblock %}

@@ -72,17 +72,13 @@ class FuncionarioForm(forms.ModelForm):
     
         # 2. Quais campos do modelo devem aparecer no formulário?
         fields = [
-            'employee_id_number', 
             'full_name', 
-            'hire_date', 
             'job_title', 
             'salary', 
             'is_manager'
         ]
         labels = {
-            'employee_id_number': 'Matrícula',
             'full_name': 'Nome Completo',
-            'hire_date': 'Data de Contratação',
             'job_title': 'Cargo',
             'salary': 'Salário Mensal',
             'is_manager': 'Função de Gerência',

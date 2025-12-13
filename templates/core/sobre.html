@@ -1,53 +1,73 @@
-{% extends "shared/base.html" %} {% block title %}Sobre Nós - Posto Lucas{% endblock %} {% block content %}
-<header class="text-center mb-5">
-  <h1 class="display-4 text-success">Sobre o Posto Lucas ⛽</h1>
-  <p class="lead">Qualidade, Confiança e o Melhor Atendimento da Região.</p>
-</header>
+{% extends "shared/base.html" %}
+{% block title %}Sobre Nós - Posto Lucas{% endblock %}
+{% block content %}
 
-<div class="row featurette align-items-center mb-5">
-  <div class="col-md-7">
-    <h2 class="featurette-heading">
-      Nossa História <span class="text-muted">| Desde 2010</span>
-    </h2>
-    <p class="lead">
-      O Posto Lucas nasceu de uma visão de oferecer mais do que apenas
-      combustível: queríamos ser um ponto de **confiança e serviço completo**
-      para a comunidade. Iniciamos com apenas duas bombas e hoje somos
-      referência em qualidade de combustíveis e serviços automotivos, sempre
-      investindo em tecnologia e treinamento.
-    </p>
-  </div>
-  <div class="col-md-5"></div>
-</div>
-
-<hr class="featurette-divider" />
-
-<div class="row featurette align-items-center mb-5">
-  <div class="col-md-7 order-md-5">
-    <h2 class="featurette-heading">
-      Compromisso com o Cliente
-      <span class="text-muted">| Sua Satisfação é Prioridade</span>
-    </h2>
-    <p class="lead">
-      Nosso time é treinado para garantir que cada parada seja rápida, eficiente
-      e agradável. Acreditamos que a transparência na qualidade dos nossos
-      produtos é o pilar da nossa relação com você. Venha nos visitar e
-      experimente o padrão Posto Lucas!
-    </p>
-  </div>
-  <div class="col-md-5 order-md-1">
-    <h3 class="text-success">Nossos Valores</h3>
-    <ul class="list-group">
-      <li class="list-group-item">✅ Qualidade do Combustível</li>
-      <li class="list-group-item">🤝 Atendimento Humanizado</li>
-      <li class="list-group-item">🌱 Responsabilidade Ambiental</li>
-      <li class="list-group-item">🔒 Segurança nas Operações</li>
-    </ul>
+<div class="page-header text-center fade-in-up">
+  <div class="container">
+    <h1 class="display-4">Sobre o Posto Lucas <i class="fas fa-gas-pump"></i></h1>
+    <p class="lead">Qualidade, Confiança e o Melhor Atendimento da Região.</p>
   </div>
 </div>
 
-<div class="text-center mt-5 p-4 bg-light rounded shadow-sm">
-  <h3>📍 Onde Estamos</h3>
+<div class="container my-5">
+  <div class="row featurette align-items-center mb-5 fade-in-up">
+    <div class="col-md-7">
+      <h2 class="featurette-heading text-success">
+        Nossa História <span class="text-muted">| Desde 2010</span>
+      </h2>
+      <p class="lead">
+        O Posto Lucas nasceu de uma visão de oferecer mais do que apenas
+        combustível: queríamos ser um ponto de **confiança e serviço completo**
+        para a comunidade. Iniciamos com apenas duas bombas e hoje somos
+        referência em qualidade de combustíveis e serviços automotivos, sempre
+        investindo em tecnologia e treinamento.
+      </p>
+    </div>
+    <div class="col-md-5">
+      <div class="card">
+        <div class="card-body text-center">
+          <i class="fas fa-history fa-3x text-warning mb-3"></i>
+          <h5>13+ Anos de Experiência</h5>
+          <p>Servindo a comunidade com dedicação e qualidade.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="featurette-divider" />
+
+  <div class="row featurette align-items-center mb-5 fade-in-up">
+    <div class="col-md-7 order-md-5">
+      <h2 class="featurette-heading text-success">
+        Compromisso com o Cliente
+        <span class="text-muted">| Sua Satisfação é Prioridade</span>
+      </h2>
+      <p class="lead">
+        Nosso time é treinado para garantir que cada parada seja rápida, eficiente
+        e agradável. Acreditamos que a transparência na qualidade dos nossos
+        produtos é o pilar da nossa relação com você. Venha nos visitar e
+        experimente o padrão Posto Lucas!
+      </p>
+    </div>
+    <div class="col-md-5 order-md-1">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="text-success mb-3"><i class="fas fa-star me-2"></i>Nossos Valores</h3>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><i class="fas fa-check-circle text-success me-2"></i>Qualidade do Combustível</li>
+            <li class="list-group-item"><i class="fas fa-handshake text-warning me-2"></i>Atendimento Humanizado</li>
+            <li class="list-group-item"><i class="fas fa-leaf text-success me-2"></i>Responsabilidade Ambiental</li>
+            <li class="list-group-item"><i class="fas fa-shield-alt text-warning me-2"></i>Segurança nas Operações</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mt-5 fade-in-up">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="text-success"><i class="fas fa-map-marker-alt me-2"></i>Onde Estamos</h3>
   <p class="mb-0">Avenida Principal, 1234 - Centro, Cidade Fictícia.</p>
   <p>Aberto 24 horas, todos os dias.</p>
 </div>

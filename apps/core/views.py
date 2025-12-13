@@ -6,6 +6,17 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import CustomUserCreationForm, ContatoForm, FuncionarioForm
 from django.core.mail import send_mail
 from django.conf import settings
+from .models import Funcionario
+
+
+def is_manager_or_superuser(user):
+    if user.is_superuser:
+        return True
+    try:
+        funcionario = Funcionario.objects.get(user=user)
+        return funcionario.is_manager
+    except Funcionario.DoesNotExist:
+        return False
 
 
 def home(request):
@@ -69,7 +80,7 @@ def contato(request):
 
 
 @login_required
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(is_manager_or_superuser)
 def adicionar_funcionario(request):
     if request.method == 'POST':
         form = FuncionarioForm(request.POST)
@@ -84,7 +95,7 @@ def adicionar_funcionario(request):
 
 
 @login_required
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(is_manager_or_superuser)
 def register_funcionario(request):
     """Permite que um superusuário registre um novo usuário e seu `Funcionario` associado."""
     if request.method == 'POST':

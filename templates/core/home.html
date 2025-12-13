@@ -1,21 +1,95 @@
-{% extends "shared/base.html" %} {% block content %}
+{% extends "shared/base.html" %}
+{% block content %}
 
-<header class="p-5 text-center bg-light rounded-3">
-  <h1 class="display-4">{{ titulo }}</h1>
+<div class="page-header text-center fade-in-up">
+  <div class="container">
+    <h1 class="display-4">{{ titulo }}</h1>
+    <p class="lead">Qualidade, rapidez e o melhor atendimento da região.</p>
+    <hr class="my-4" />
+    <p class="mb-4">Visite-nos hoje e sinta a diferença em seu veículo.</p>
+    <a class="btn btn-light btn-lg me-3" href="{% url 'lista_servicos' %}" role="button">
+      <i class="fas fa-tools me-2"></i>Ver Serviços
+    </a>
+    <a class="btn btn-outline-light btn-lg" href="{% url 'contato' %}" role="button">
+      <i class="fas fa-envelope me-2"></i>Entre em Contato
+    </a>
+  </div>
+</div>
 
-  <p class="lead">Qualidade, rapidez e o melhor atendimento da região.</p>
+<div class="container my-5">
+  <div class="row g-4">
+    <div class="col-lg-4 col-md-6">
+      <div class="card h-100 text-center fade-in-up">
+        <div class="card-body">
+          <div class="mb-3">
+            <i class="fas fa-gas-pump fa-3x text-success"></i>
+          </div>
+          <h5 class="card-title">Combustíveis de Qualidade</h5>
+          <p class="card-text">Oferecemos uma ampla variedade de combustíveis com os melhores preços da região.</p>
+        </div>
+      </div>
+    </div>
 
-  <hr class="my-4" />
+    <div class="col-lg-4 col-md-6">
+      <div class="card h-100 text-center fade-in-up">
+        <div class="card-body">
+          <div class="mb-3">
+            <i class="fas fa-wrench fa-3x text-warning"></i>
+          </div>
+          <h5 class="card-title">Serviços Especializados</h5>
+          <p class="card-text">Equipe qualificada para manutenção e reparos do seu veículo.</p>
+        </div>
+      </div>
+    </div>
 
-  <p>Visite-nos hoje e sinta a diferença em seu veículo.</p>
+    <div class="col-lg-4 col-md-6">
+      <div class="card h-100 text-center fade-in-up">
+        <div class="card-body">
+          <div class="mb-3">
+            <i class="fas fa-clock fa-3x text-info"></i>
+          </div>
+          <h5 class="card-title">Atendimento Rápido</h5>
+          <p class="card-text">Serviço eficiente e atendimento personalizado para sua comodidade.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <a
-    class="btn btn-success btn-lg"
-    href="{% url 'lista_servicos' %}"
-    role="button"
-  >
-    Ver Serviços
-  </a>
-</header>
+  <div class="row mt-5">
+    <div class="col-12">
+      <div class="card fade-in-up">
+        <div class="card-body text-center">
+          <h3 class="card-title text-success mb-4">Por que escolher o Posto Lucas?</h3>
+        <div class="row g-4">
+            <div class="col-md-3">
+              <i class="fas fa-shield-alt fa-2x text-warning mb-2"></i>
+              <h6>Qualidade Garantida</h6>
+              <small>Produtos certificados e serviços de alta qualidade.</small>
+            </div>
+            <div class="col-md-3">
+              <i class="fas fa-dollar-sign fa-2x text-success mb-2"></i>
+              <h6>Preços Competitivos</h6>
+              <small>Melhores preços da região com transparência total.</small>
+            </div>
+            <div class="col-md-3">
+              <i class="fas fa-users fa-2x text-info mb-2"></i>
+              <h6>Equipe Especializada</h6>
+              <small>Profissionais treinados e experientes.</small>
+            </div>
+            <div class="col-md-3">
+              <i class="fas fa-map-marker-alt fa-2x text-warning mb-2"></i>
+              <h6>Localização Estratégica</h6>
+              <small>Fácil acesso e localização conveniente.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
+{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 {% endblock %}

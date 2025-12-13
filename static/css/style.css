@@ -1,69 +1,219 @@
 /*
  * static/css/style.css
  *
- * Estilos globais da aplicação. Mantemos regras simples para não
- * conflitar com o Bootstrap (que fornece a maior parte da UI).
- * Comentários explicativos em português para facilitar manutenção.
+ * Estilos globais da aplicação. Design moderno e equilibrado com toques de verde e amarelo.
+ * Utiliza cores complementares para uma experiência visual harmoniosa.
  */
 
-/* Estilo base do <body>: cor de fundo clara e layout com coluna flex para
-   permitir que o footer 'empurre' o conteúdo quando a página for curta. */
+/* Estilo base do <body>: fundo sólido */
 body {
-    background-color: #f8f9fa;
+    background: #f8f9fa;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
 }
 
-/* Pequeno detalhe visual na navbar (linha amarela abaixo) para destaque. */
+/* Navbar com verde sólido */
 .navbar {
-    border-bottom: 3px solid rgba(0, 0, 0, 0.05);
-    background: linear-gradient(90deg, #ffc107 0%, #52cc00 100%);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
-    color: #000;
+    background: #27ae60;
+    border-bottom: 3px solid #ffd700;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
 
-/* Brand */
+.navbar:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Brand com estilo profissional */
 .navbar-brand {
     font-weight: 700;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
+    color: #fff !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
 }
 
-/* Improve cards look */
+.navbar-brand:hover {
+    transform: scale(1.02);
+    color: #ecf0f1 !important;
+}
+
+/* Links da navbar */
+.navbar-nav .nav-link {
+    color: #ecf0f1 !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ffd700 !important;
+    background-color: rgba(255, 215, 0, 0.1);
+    border-radius: 5px;
+    transform: translateY(-1px);
+}
+
+/* Botões na navbar */
+.navbar .btn {
+    border-radius: 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.navbar .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+    background: #ffd700 !important;
+    border-color: #ffd700 !important;
+    color: #000 !important;
+}
+
+/* Cards modernos com design clean */
 .card {
     border: none;
     border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(20, 20, 20, 0.06);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    background: #ffffff;
+    border: 1px solid #e9ecef;
 }
 
-/* Card titles */
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* Títulos dos cards */
 .card-title {
-    font-size: 1.15rem;
+    font-size: 1.25rem;
     font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 1rem;
 }
 
-/* Primary button with subtle gradient */
+/* Botões primários com verde */
 .btn-primary {
-    background: linear-gradient(180deg, #0b5ed7, #0a58ca);
+    background: #27ae60;
     border: none;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
 }
 
-/* Footer spacing */
+.btn-primary:hover {
+    background: #ffd700;
+    color: #000 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+}
+
+/* Botões de sucesso com cor sólida */
+.btn-success {
+    background: #27ae60;
+    border: none;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+}
+
+.btn-success:hover {
+    background: #ffd700;
+    color: #000 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+}
+
+/* Footer com verde escuro */
 footer {
     margin-top: auto;
-    padding: 1.5rem 0;
-    background: transparent;
+    padding: 2rem 0;
+    background: #2c3e50;
+    color: #ecf0f1;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Main container width */
+/* Container principal */
 main.container {
-    max-width: 1100px;
+    max-width: 1200px;
     width: 100%;
 }
 
-/* Show Django messages (they were hidden inline) */
+/* Mensagens do Django com estilo */
 .django-message {
     display: block !important;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Animação de fade-in para elementos */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Headers de página com cores separadas */
+.page-header {
+    background: #27ae60;
+    color: white;
+    padding: 2.5rem 0;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.page-header h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.page-header p {
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
+
+/* Formulários com estilo moderno */
+.form-control {
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #27ae60;
+    box-shadow: 0 0 0 0.2rem rgba(39, 174, 96, 0.25);
+}
+
+/* Tabelas com estilo */
+.table {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.table thead th {
+    background: #27ae60;
+    color: white;
+    border: none;
+    font-weight: 600;
 }
 
 /* Faz a <main> crescer para ocupar o espaço restante do body flex. */
