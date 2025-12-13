@@ -17,8 +17,53 @@ body {
 
 /* Pequeno detalhe visual na navbar (linha amarela abaixo) para destaque. */
 .navbar {
-    border-bottom: 5px solid #ffc107;
-    /* Detalhe amarelo */
+    border-bottom: 3px solid rgba(0, 0, 0, 0.05);
+    background: linear-gradient(90deg, #ffc107 0%, #52cc00 100%);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+    color: #000;
+}
+
+/* Brand */
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Improve cards look */
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(20, 20, 20, 0.06);
+}
+
+/* Card titles */
+.card-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+/* Primary button with subtle gradient */
+.btn-primary {
+    background: linear-gradient(180deg, #0b5ed7, #0a58ca);
+    border: none;
+}
+
+/* Footer spacing */
+footer {
+    margin-top: auto;
+    padding: 1.5rem 0;
+    background: transparent;
+}
+
+/* Main container width */
+main.container {
+    max-width: 1100px;
+    width: 100%;
+}
+
+/* Show Django messages (they were hidden inline) */
+.django-message {
+    display: block !important;
 }
 
 /* Faz a <main> crescer para ocupar o espaço restante do body flex. */

@@ -1,50 +1,45 @@
-{% extends "base.html" %}
-
-{% block content %}
+{% extends "shared/base.html" %} {% block content %}
 
 <header class="mb-4">
-    <h1 class="display-4">Nossos Serviços</h1>
-    <p class="lead">Confira a tabela de preços e os serviços disponíveis.</p>
+  <h1 class="display-4">Nossos Serviços</h1>
+  <p class="lead">Confira a tabela de preços e os serviços disponíveis.</p>
 </header>
 
 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-    
-    {% for servico in servicos %}
-    
-    <div class="col">
-        <article class="card h-100 shadow-sm border-0" aria-labelledby="servico-{{ forloop.counter }}">
-            
-            <div class="card-body d-flex flex-column">
-                
-                <h2 class="card-title text-danger fs-4" id="servico-{{ forloop.counter }}">
-                    {{ servico.nome }}
-                </h2>
-                
-                <p class="card-text mb-3 flex-grow-1">
-                    {{ servico.descricao }}
-                </p>
+  {% for servico in servicos %}
 
-                {% with preco=servico.preco_unitario|default:"0.00"|floatformat:2 %}
-                <div class="mt-auto">
-                    <span class="badge bg-success fs-5 p-2">
-                        R$ {{ preco }}
-                    </span>
-                    <span class="visually-hidden">Preço unitário: R$ {{ preco }}</span>
-                </div>
-                {% endwith %}
+  <div class="col">
+    <article
+      class="card h-100 shadow-sm border-0"
+      aria-labelledby="servico-{{ forloop.counter }}"
+    >
+      <div class="card-body d-flex flex-column">
+        <h2
+          class="card-title text-danger fs-4"
+          id="servico-{{ forloop.counter }}"
+        >
+          {{ servico.nome }}
+        </h2>
 
-            </div>
-        </article>
-    </div>
-    
-    {% empty %}
-    <div class="col-12">
-        <div class="alert alert-info" role="alert">
-            Nenhum combustível ou serviço encontrado no momento.
+        <p class="card-text mb-3 flex-grow-1">{{ servico.descricao }}</p>
+
+        {% with preco=servico.preco_unitario|default:"0.00"|floatformat:2 %}
+        <div class="mt-auto">
+          <span class="badge bg-success fs-5 p-2"> R$ {{ preco }} </span>
+          <span class="visually-hidden">Preço unitário: R$ {{ preco }}</span>
         </div>
+        {% endwith %}
+      </div>
+    </article>
+  </div>
+
+  {% empty %}
+  <div class="col-12">
+    <div class="alert alert-info" role="alert">
+      Nenhum combustível ou serviço encontrado no momento.
     </div>
-    {% endfor %}
-    
+  </div>
+  {% endfor %}
 </div>
 
 {% endblock %}

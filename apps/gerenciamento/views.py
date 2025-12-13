@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.db import transaction
 from .models import RegistroCompra, RegistroVenda, EstoqueGasolina, Servico, RegistroServico
@@ -7,6 +7,7 @@ from .forms import MovimentacaoEstoqueForm, EstoqueGasolinaCreationForm, Simulac
 from decimal import Decimal
 from django.views.decorators.http import require_http_methods
 from django.utils import timezone
+from django.shortcuts import get_object_or_404
 
 @require_http_methods(["GET", "POST"])
 def edit_combustiveis_view(request):
@@ -110,8 +111,9 @@ def adicionar_combustivel_view(request):
 
 
 @login_required
+@user_passes_test(lambda u: u.is_superuser or hasattr(u, 'funcionario'), login_url='login')
 def estoque_gasolina_view(request):
-    
+
     # 1. Verificação de Estoque Inicial
     if not EstoqueGasolina.objects.exists():
         messages.info(request, "O estoque está vazio. Por favor, adicione o estoque inicial dos seus combustíveis.")
@@ -184,6 +186,7 @@ def estoque_gasolina_view(request):
 
 
 @login_required
+@user_passes_test(lambda u: u.is_superuser or hasattr(u, 'funcionario'), login_url='login')
 def financeiro_view(request):
     
     compras = RegistroCompra.objects.all()[:10]
@@ -311,3 +314,13 @@ def financeiro_view(request):
         'titulo': 'Gestão Financeira'
     }
     return render(request, 'gerenciamento/financeiro.html', context)
+
+
+def estoque_visivel_view(request):
+    """Página pública que mostra o estoque de combustíveis aos clientes."""
+    estoques = EstoqueGasolina.objects.all().order_by('tipo')
+    context = {
+        'estoques': estoques,
+        'titulo': 'Estoque de Combustíveis'
+    }
+    return render(request, 'gerenciamento/estoque_visivel.html', context)

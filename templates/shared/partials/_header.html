@@ -1,0 +1,87 @@
+{% load static %}
+{% load custom_filters %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">Posto Lucas</a>
+
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">Início</a>
+                </li>
+
+                {% if not user.is_authenticated or not user.is_superuser and not user|is_employee %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'lista_servicos' %}">Serviços</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'estoque_visivel' %}">Estoque</a>
+                </li>
+                {% endif %}
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'sobre' %}">Sobre</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contato' %}">Contato</a>
+                </li>
+
+                {% if user.is_authenticated and user|is_employee %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'estoque_gasolina' %}">Estoque (Controle)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'financeiro' %}">Financeiro</a>
+                </li>
+                {% endif %}
+                {% if user.is_authenticated %}
+                <li class="nav-item ms-3">
+                    <span class="nav-link text-white">Olá, **{{ user.username }}!**</span>
+                </li>
+                <li class="nav-item">
+                    <a
+                        class="btn btn-danger"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#logoutModal"
+                        onclick="event.preventDefault();"
+                    >Sair</a>
+                </li>
+                {% else %}
+                <li class="nav-item ms-3">
+                    <a
+                        class="btn btn-success border border-white"
+                        href="{% url 'login' %}"
+                    >Login</a>
+                </li>
+                <li class="nav-item">
+                    <a
+                        class="btn btn-success ms-2 border border-white"
+                        href="{% url 'register' %}"
+                    >Cadastro</a>
+                </li>
+                {% endif %}
+
+                {% if user.is_authenticated and user.is_superuser %}
+                <li class="nav-item">
+                    <a class="btn btn-success ms-2 border border-white" href="{% url 'register_funcionario' %}">Cadastrar Funcionário</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

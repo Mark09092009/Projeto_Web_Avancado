@@ -1,134 +1,127 @@
-{% extends "base.html" %}
-{% load static %}
-{% load l10n %}
-
-{% block title %}{{ titulo }}{% endblock %}
-
-{% block content %}
+{% extends "shared/base.html" %} {% load static %} {% load l10n %} {% block title %}{{ titulo }}{% endblock %} {% block content %}
 <div class="container mt-5">
+  <div
+    class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4"
+  >
+    <h2 class="mb-3 mb-md-0 text-primary">{{ titulo }}</h2>
 
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
-        <h2 class="mb-3 mb-md-0 text-primary">{{ titulo }}</h2>
+    <div class="d-grid gap-2 d-md-block">
+      <a href="{% url 'financeiro' %}" class="btn btn-info w-100 w-md-auto">
+        <i class="fas fa-chart-line"></i>
+        <span class="d-none d-md-inline">Ir para Financeiro</span>
+        <span class="d-inline d-md-none">Financeiro</span>
+      </a>
 
-        <div class="d-grid gap-2 d-md-block">
-            <a href="{% url 'financeiro' %}" class="btn btn-info w-100 w-md-auto">
-                <i class="fas fa-chart-line"></i>
-                <span class="d-none d-md-inline">Ir para Financeiro</span>
-                <span class="d-inline d-md-none">Financeiro</span>
-            </a>
-
-            <a href="{% url 'estoque_gasolina' %}" class="btn btn-secondary w-100 w-md-auto">
-                <i class="fas fa-warehouse"></i>
-                <span class="d-none d-md-inline">Voltar ao Estoque</span>
-                <span class="d-inline d-md-none">Estoque</span>
-            </a>
-        </div>
+      <a
+        href="{% url 'estoque_gasolina' %}"
+        class="btn btn-secondary w-100 w-md-auto"
+      >
+        <i class="fas fa-warehouse"></i>
+        <span class="d-none d-md-inline">Voltar ao Estoque</span>
+        <span class="d-inline d-md-none">Estoque</span>
+      </a>
     </div>
+  </div>
 
-    <div class="card mb-4 shadow-sm">
-        <div class="card-body">
+  <div class="card mb-4 shadow-sm">
+    <div class="card-body">
+      <p class="text-muted">
+        Edite o preço atual por litro dos combustíveis e o preço unitário dos
+        serviços. Insira o novo preço e clique em "Atualizar".
+      </p>
 
-            <p class="text-muted">
-                Edite o preço atual por litro dos combustíveis e o preço unitário dos serviços.
-                Insira o novo preço e clique em "Atualizar".
-            </p>
+      {% if messages %} {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+      {% endfor %} {% endif %}
 
-            {% if messages %}
-            {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+      <div class="table-responsive">
+        <table class="table table-sm table-striped">
+          <thead>
+            <tr>
+              <th class="text-nowrap">Item</th>
+              <th class="text-nowrap" style="width: 250px">Preço atual (R$)</th>
+              <th class="text-nowrap">Última Atualização/Criação</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for item in estoques %}
+            <tr>
+              <td class="text-nowrap">
+                Combustível: {{ item.get_tipo_display }}
+              </td>
+
+              <td>
+                <form method="POST" class="d-flex gap-2 align-items-center">
+                  {% csrf_token %}
+                  <input type="hidden" name="pk" value="C:{{ item.pk }}" />
+                  <input
+                    name="preco"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    class="form-control form-control-sm"
+                    style="width: 120px"
+                    placeholder="0.00"
+                    value="{% if item.preco_atual_litro > 0 %}{{ item.preco_atual_litro|unlocalize }}{% endif %}"
+                  />
+                  <button class="btn btn-sm btn-success" type="submit">
+                    Atualizar
+                  </button>
+                </form>
+              </td>
+
+              <td>
+                <span class="text-muted text-nowrap">
+                  Última: {{ item.data_ultima_atualizacao|date:"d/m/Y H:i" }}
+                </span>
+              </td>
+            </tr>
+
+            {% empty %}
+            <tr>
+              <td colspan="3">Nenhum combustível encontrado.</td>
+            </tr>
+            {% endfor %} {% for serv in servicos %}
+            <tr>
+              <td class="text-nowrap">Serviço: {{ serv.nome }}</td>
+
+              <td>
+                <form method="POST" class="d-flex gap-2 align-items-center">
+                  {% csrf_token %}
+                  <input type="hidden" name="pk" value="S:{{ serv.pk }}" />
+                  <input
+                    name="preco"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    class="form-control form-control-sm"
+                    style="width: 120px"
+                    placeholder="0.00"
+                    value="{% if serv.preco_unitario > 0 %}{{ serv.preco_unitario|unlocalize }}{% endif %}"
+                  />
+                  <button class="btn btn-sm btn-success" type="submit">
+                    Atualizar
+                  </button>
+                </form>
+              </td>
+
+              <td>
+                <span class="text-muted text-nowrap">
+                  Criado: {{ serv.criado_em|date:"d/m/Y H:i" }}
+                </span>
+              </td>
+            </tr>
+
+            {% empty %}
+            <tr>
+              <td colspan="3">Nenhum serviço extra encontrado.</td>
+            </tr>
             {% endfor %}
-            {% endif %}
-
-            <div class="table-responsive">
-                <table class="table table-sm table-striped">
-                    <thead>
-                        <tr>
-                            <th class="text-nowrap">Item</th>
-                            <th class="text-nowrap" style="width: 250px;">Preço atual (R$)</th>
-                            <th class="text-nowrap">Última Atualização/Criação</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-
-                        {% for item in estoques %}
-                        <tr>
-                            <td class="text-nowrap">Combustível: {{ item.get_tipo_display }}</td>
-
-                            <td>
-                                <form method="POST" class="d-flex gap-2 align-items-center">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="pk" value="C:{{ item.pk }}" />
-                                    <input
-                                        name="preco"
-                                        type="number"
-                                        step="0.01"
-                                        min="0"
-                                        class="form-control form-control-sm"
-                                        style="width: 120px"
-                                        placeholder="0.00"
-                                        value="{% if item.preco_atual_litro > 0 %}{{ item.preco_atual_litro|unlocalize }}{% endif %}"
-                                    />
-                                    <button class="btn btn-sm btn-success" type="submit">
-                                        Atualizar
-                                    </button>
-                                </form>
-                            </td>
-
-                            <td>
-                                <span class="text-muted text-nowrap">
-                                    Última: {{ item.data_ultima_atualizacao|date:"d/m/Y H:i" }}
-                                </span>
-                            </td>
-                        </tr>
-
-                        {% empty %}
-                        <tr>
-                            <td colspan="3">Nenhum combustível encontrado.</td>
-                        </tr>
-                        {% endfor %}
-
-                        {% for serv in servicos %}
-                        <tr>
-                            <td class="text-nowrap">Serviço: {{ serv.nome }}</td>
-
-                            <td>
-                                <form method="POST" class="d-flex gap-2 align-items-center">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="pk" value="S:{{ serv.pk }}" />
-                                    <input
-                                        name="preco"
-                                        type="number"
-                                        step="0.01"
-                                        min="0"
-                                        class="form-control form-control-sm"
-                                        style="width: 120px"
-                                        placeholder="0.00"
-                                        value="{% if serv.preco_unitario > 0 %}{{ serv.preco_unitario|unlocalize }}{% endif %}"
-                                    />
-                                    <button class="btn btn-sm btn-success" type="submit">
-                                        Atualizar
-                                    </button>
-                                </form>
-                            </td>
-
-                            <td>
-                                <span class="text-muted text-nowrap">
-                                    Criado: {{ serv.criado_em|date:"d/m/Y H:i" }}
-                                </span>
-                            </td>
-                        </tr>
-
-                        {% empty %}
-                        <tr>
-                            <td colspan="3">Nenhum serviço extra encontrado.</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-
-                </table>
-            </div>
-        </div>
+          </tbody>
+        </table>
+      </div>
     </div>
+  </div>
 </div>
 {% endblock %}

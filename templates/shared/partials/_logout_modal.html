@@ -1,0 +1,28 @@
+<form id="logoutForm" method="POST" action="{% url 'logout' %}" style="display: none;">
+        {% csrf_token %}
+    </form>
+
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="logoutModalLabel">Confirmação de Saída</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    Você tem certeza que deseja sair do sistema? Seus dados não salvos podem ser perdidos.
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    
+                    <a class="btn btn-danger" 
+                       onclick="document.getElementById('logoutForm').submit();" 
+                       data-bs-dismiss="modal">
+                        Sim, Sair
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>

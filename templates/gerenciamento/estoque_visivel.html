@@ -1,0 +1,23 @@
+{% extends 'shared/base.html' %} {% block content %}
+<h1>{{ titulo }}</h1>
+<div class="row">
+    {% for item in estoques %}
+    <div class="col-md-4 mb-3">
+    <div class="card">
+        <div class="card-body">
+        <h5 class="card-title">{{ item.get_tipo_display }}</h5>
+        <p class="card-text">Quantidade: {{ item.quantidade_litros }} L</p>
+        <p class="card-text">Preço (litro): R$ {{ item.preco_atual_litro }}</p>
+        {% if item.data_ultima_atualizacao %}
+        <small class="text-muted"
+            >Atualizado em {{ item.data_ultima_atualizacao }}</small
+        >
+        {% endif %}
+        </div>
+    </div>
+    </div>
+    {% empty %}
+    <p>Não há combustíveis cadastrados no momento.</p>
+    {% endfor %}
+</div>
+{% endblock %}

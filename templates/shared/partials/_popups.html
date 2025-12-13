@@ -1,0 +1,52 @@
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="successModalLabel">✅ Sucesso!</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="modal-message-content"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const messages = document.querySelectorAll('.django-message');
+
+            if (messages.length > 0) {
+                let messageElement = messages[0];
+                let messageText = messageElement.innerText;
+                let messageTags = messageElement.classList.contains('alert-success') ? 'success' : 
+                                messageElement.classList.contains('alert-danger') ? 'danger' : 'info';
+                
+                document.getElementById('modal-message-content').innerText = messageText;
+
+                const modalHeader = document.querySelector('#successModal .modal-header');
+                const modalTitle = document.querySelector('#successModal .modal-title');
+                
+                modalHeader.classList.remove('bg-success', 'bg-danger', 'bg-info');
+                
+                if (messageTags === 'danger') {
+                    modalHeader.classList.add('bg-danger');
+                    modalTitle.innerHTML = '❌ Erro!';
+                } else if (messageTags === 'info') {
+                    modalHeader.classList.add('bg-info');
+                    modalTitle.innerHTML = 'ℹ️ Atenção!';
+                } else {
+                    modalHeader.classList.add('bg-success');
+                    modalTitle.innerHTML = '✅ Sucesso!';
+                }
+                
+                messageElement.remove();
+
+                const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                successModal.show();
+            }
+        });
+    </script>

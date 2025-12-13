@@ -1,50 +1,17 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from .models import Cliente, Funcionario
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
-class CustomUserCreationForm(UserCreationForm):
-    email = forms.EmailField(
-        label='E-mail',  
-        required=True,  
-        widget=forms.EmailInput(attrs={'autocomplete': 'email'}) 
-    )
-    first_name = forms.CharField(label='Nome', required=False) 
-    last_name = forms.CharField(label='Sobrenome', required=False)  
-    def save(self, commit=True):
-        
-        user = super().save(commit=False)
-        
-        base_username = self.cleaned_data["email"].split('@')[0]
-        unique_username = base_username
-        counter = 1
-        
-        while User.objects.filter(username=unique_username).exists():
-            unique_username = f"{base_username}_{counter}"
-            counter += 1
-        user.username = unique_username 
-
-
-        user.email = self.cleaned_data["email"]
-        user.first_name = self.cleaned_data["first_name"]
-        user.last_name = self.cleaned_data["last_name"]
-
-        if commit:
-            user.save()
-        return user
-
-    class Meta(UserCreationForm.Meta):
-        model = User  
-        fields = ('email', 'first_name', 'last_name') + UserCreationForm.Meta.fields[1:]
-
 class EmailAuthenticationForm(AuthenticationForm):
     username = forms.CharField(
-        label=_("E-mail"),  
-        max_length=254,  
-        widget=forms.EmailInput(attrs={
-            'autofocus': True,  
-            'class': 'form-control', 
-            'placeholder': 'Seu e-mail'
+        label=_("E-mail ou usuário"),
+        max_length=254,
+        widget=forms.TextInput(attrs={
+            'autofocus': True,
+            'class': 'form-control',
+            'placeholder': 'E-mail ou nome de usuário'
         })
     )
     
@@ -78,3 +45,81 @@ class ContatoForm(forms.Form):
         label='Mensagem',
         widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}) 
     )
+
+class ClienteForm(forms.ModelForm):
+    class Meta:
+        model = Cliente
+        
+        # 2. Quais campos do modelo devem aparecer no formulário?
+        # Excluímos 'user' porque ele é uma chave estrangeira
+        # e é geralmente gerenciado no código da view (não diretamente pelo usuário).
+        fields = [
+            'full_name', 
+            'cpf', 
+            'email',
+            'endereco',
+        ]
+        labels = {
+            'full_name': 'Nome Completo',
+            'cpf': 'CPF',
+            'email': 'E-mail',
+            'endereco': 'Endereço',
+        }
+
+class FuncionarioForm(forms.ModelForm):
+    class Meta:
+        model = Funcionario
+    
+        # 2. Quais campos do modelo devem aparecer no formulário?
+        fields = [
+            'employee_id_number', 
+            'full_name', 
+            'hire_date', 
+            'job_title', 
+            'salary', 
+            'is_manager'
+        ]
+        labels = {
+            'employee_id_number': 'Matrícula',
+            'full_name': 'Nome Completo',
+            'hire_date': 'Data de Contratação',
+            'job_title': 'Cargo',
+            'salary': 'Salário Mensal',
+            'is_manager': 'Função de Gerência',
+        }
+
+
+class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = User
+        fields = ("username", "email", "password1", "password2")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Nome de usuário'})
+        self.fields['password1'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Senha'})
+        self.fields['password2'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Confirme a senha'})
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.email = self.cleaned_data.get('email', '')
+        if commit:
+            user.save()
+        return user
+        widgets = {
+
+            'hire_date': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Apply bootstrap classes to form fields
+        for name, field in self.fields.items():
+            if name == 'is_manager':
+                field.widget.attrs.update({'class': 'form-check-input'})
+            elif name == 'hire_date':
+                field.widget.attrs.update({'class': 'form-control'})
+            else:
+                field.widget.attrs.update({'class': 'form-control'})

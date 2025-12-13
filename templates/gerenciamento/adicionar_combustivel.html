@@ -1,5 +1,4 @@
-{% extends "base.html" %} {% load widget_tweaks %} {% block title %}{{ titulo
-}}{% endblock %} {% block content %}
+{% extends "shared/base.html" %} {% load widget_tweaks %} {% block title %}{{ titulo }}{% endblock %} {% block content %}
 <div class="container mt-5">
   <h2 class="mb-4 text-success">{{ titulo }}</h2>
 
@@ -38,9 +37,10 @@
               class="form-label"
               >{{ form.preco_atual_litro.label }}</label
             >
-            {% render_field form.preco_atual_litro class="form-control" %}
-            {% if form.preco_atual_litro.help_text %}
-            <small class="form-text text-muted d-block mt-1">{{ form.preco_atual_litro.help_text|safe }}</small>
+            {% render_field form.preco_atual_litro class="form-control" %} {% if form.preco_atual_litro.help_text %}
+            <small class="form-text text-muted d-block mt-1"
+              >{{ form.preco_atual_litro.help_text|safe }}</small
+            >
             {% endif %}
           </div>
 
