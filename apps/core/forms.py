@@ -98,6 +98,12 @@ class CustomUserCreationForm(UserCreationForm):
         self.fields['password1'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Senha'})
         self.fields['password2'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Confirme a senha'})
 
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if User.objects.filter(username=username).exists():
+            raise forms.ValidationError("Este nome de usuário já está em uso.")
+        return username
+
     def save(self, commit=True):
         user = super().save(commit=False)
         user.email = self.cleaned_data.get('email', '')
